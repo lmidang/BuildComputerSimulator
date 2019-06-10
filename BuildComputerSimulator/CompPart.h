@@ -10,11 +10,18 @@ class CompPart
 	std::string mManufacturer;
 	int mPowerConsumption;
 	int mPerformanceIndex;
-	int mAddedOrder; // unsure if we'll keep this, it's just for the binary search tree
+	int mPartType;
+	int mSortType;
 public:
+	class BadSortTypeException {};
+
+	enum partTypes  { kCPU, kCooler, kMotherBoard, kMemory, kVideoCard, kStorage, kPowerSupply};
+	enum sortTypes { kByName, kByPrice, kByManufacturer, kByPowerConsumption, kByPerformanceIndex };
+
 	CompPart();
 	CompPart(std::string, std::string, double, std::string, int, int, int);
-	~CompPart();
+	CompPart(const CompPart&);
+	virtual ~CompPart();
 
 	// Mutators
 	void setProductNumber(std::string);
@@ -23,7 +30,7 @@ public:
 	void setManufacturer(std::string);
 	void setPowerConsumption(int);
 	void setPerformanceIndex(int);
-	void setAddedOrder(int);
+	void setSortType(int);
 
 	// Accessors
 	std::string getProductNumber();
@@ -32,9 +39,14 @@ public:
 	std::string getManufacturer();
 	int getPowerConsumption();
 	int getPerformanceIndex();
-	int getAddedOrder();
+	int getPartType();
+	int getSortType();
 
 	// Overloaded Functions
+	CompPart &operator=(const CompPart&);
+	friend bool operator== (const CompPart&, const CompPart&);
+	friend bool operator>(const CompPart&, const CompPart&);
+	friend bool operator<(const CompPart&, const CompPart&);
 	friend std::ostream &operator<<(std::ostream&, CompPart&);
 };
 
