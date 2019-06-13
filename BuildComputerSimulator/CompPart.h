@@ -4,22 +4,24 @@
 
 class CompPart
 {
+protected:
 	std::string mProductNumber;
 	std::string mName;
 	double mPrice;
 	std::string mManufacturer;
-	int mPowerConsumption;
+	int mPower;
 	int mPerformanceIndex;
 	int mPartType;
-	int mSortType;
+	std::string mCompatibility;
+	int mSortType;	// default kByPrice
 public:
 	class BadSortTypeException {};
 
-	enum partTypes  { kCPU, kCooler, kMotherBoard, kMemory, kVideoCard, kStorage, kPowerSupply};
-	enum sortTypes { kByName, kByPrice, kByManufacturer, kByPowerConsumption, kByPerformanceIndex };
+	enum partTypes  { kCPU, kCooler, kMotherBoard, kMemory, kVideoCard, kStorage, kCase, kPowerSupply};
+	enum sortTypes { kByPrice, kByPerformanceIndex };
 
 	CompPart();
-	CompPart(std::string, std::string, double, std::string, int, int, int);
+	CompPart(std::string, std::string, double, std::string, int, int, int, std::string);
 	CompPart(const CompPart&);
 	virtual ~CompPart();
 
@@ -30,6 +32,7 @@ public:
 	void setManufacturer(std::string);
 	void setPowerConsumption(int);
 	void setPerformanceIndex(int);
+	void setCompatibility(std::string);
 	void setSortType(int);
 
 	// Accessors
@@ -40,6 +43,7 @@ public:
 	int getPowerConsumption();
 	int getPerformanceIndex();
 	int getPartType();
+	std::string setCompatibility();
 	int getSortType();
 
 	// Overloaded Functions
@@ -48,5 +52,5 @@ public:
 	friend bool operator>(const CompPart&, const CompPart&);
 	friend bool operator<(const CompPart&, const CompPart&);
 	friend std::ostream &operator<<(std::ostream&, CompPart&);
+	friend std::istream &operator>>(std::istream&, CompPart&)
 };
-

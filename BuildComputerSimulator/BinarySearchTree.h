@@ -119,6 +119,7 @@ public:
 	bool isEmpty() const;
 	int getHeight() const;
 	int getNumberOfNodes() const;
+	ItemType& getRoot();
 	
 	/** adds to the tree
 	@pre none
@@ -174,10 +175,6 @@ public:
 	@param visit
 	*/
 	void breadthFirstTraverse(void visit(ItemType &));
-
-	/**
-	*/
-	bool fillUpFile(std::ifstream& file);
 };
 
 #include "BinarySearchTree.cpp"

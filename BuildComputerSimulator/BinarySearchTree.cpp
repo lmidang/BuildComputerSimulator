@@ -273,6 +273,11 @@ int BinarySearchTree<ItemType>::getNumberOfNodes() const {
 	return getNumNodesHelper(rootPtr);
 }
 
+template <class ItemType>
+ItemType& BinarySearchTree<ItemType>::getRoot() {
+	return rootPtr->getData();
+}
+
 /** contains
 returns whether node of item exists
 */
@@ -401,13 +406,4 @@ breadthFirst traverse from rootPtr
 template <class ItemType>
 void BinarySearchTree<ItemType>::breadthFirstTraverse(void visit(ItemType &)) {
 	breadthFirst(visit, rootPtr);
-}
-
-template<class ItemType>
-bool BinarySearchTree<ItemType>::fillUpFile(std::ifstream& f) {
-	while (!f.eof()) {
-		ItemType item;
-		f >> item;
-		add(item);
-	}
 }
