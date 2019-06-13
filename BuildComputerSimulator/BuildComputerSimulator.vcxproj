@@ -119,6 +119,10 @@
     <ClInclude Include="BinarySearchTree.h" />
     <ClInclude Include="BSTHandler.h" />
     <ClInclude Include="CompPart.h" />
+    <ClInclude Include="CPUCooler.h" />
+    <ClInclude Include="PowerSupply.h" />
+    <ClInclude Include="Storage.h" />
+    <ClInclude Include="VideoCard.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="queue.h" />
     <ClInclude Include="singly_linked_list.h" />
@@ -126,7 +130,11 @@
   <ItemGroup>
     <ClCompile Include="BSTHandler.cpp" />
     <ClCompile Include="CompPart.cpp" />
+    <ClCompile Include="CPUCooler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PowerSupply.cpp" />
+    <ClCompile Include="Storage.cpp" />
+    <ClCompile Include="VideoCard.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

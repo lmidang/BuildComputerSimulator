@@ -29,6 +29,16 @@
     <ClInclude Include="CompPart.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Storage.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPUCooler.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCard.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerSupply.h">
     <ClInclude Include="BinarySearchTree.h">
       <Filter>Source Files</Filter>
     </ClInclude>
