@@ -116,10 +116,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CompPart.h" />
+    <ClInclude Include="CPUCooler.h" />
+    <ClInclude Include="PowerSupply.h" />
+    <ClInclude Include="Storage.h" />
+    <ClInclude Include="VideoCard.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CompPart.cpp" />
+    <ClCompile Include="CPUCooler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PowerSupply.cpp" />
+    <ClCompile Include="Storage.cpp" />
+    <ClCompile Include="VideoCard.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
