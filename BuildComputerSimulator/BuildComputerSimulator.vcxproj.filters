@@ -48,6 +48,19 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="PowerSupply.h">
+    <ClInclude Include="BinarySearchTree.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryNode.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="singly_linked_list.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="node.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="queue.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
