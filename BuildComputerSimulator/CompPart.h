@@ -52,5 +52,5 @@ public:
 	friend bool operator>(const CompPart&, const CompPart&);
 	friend bool operator<(const CompPart&, const CompPart&);
 	friend std::ostream &operator<<(std::ostream&, CompPart&);
-	friend std::istream &operator>>(std::istream&, CompPart&)
+	friend std::istream &operator>>(std::istream&, CompPart&);
 };

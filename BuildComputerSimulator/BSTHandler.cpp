@@ -1,25 +1,23 @@
 #include "BSTHandler.h"
 
-
+SinglyLinkedList<CompPart> BSTHandler::list;
+int BSTHandler::typePart = 0;
 
 BSTHandler::BSTHandler()
 {
 	priceBST = BinarySearchTree<CompPart>();
 	performanceBST = BinarySearchTree<CompPart>();
-
-	list = SinglyLinkedList<CompPart>();
-	partType = 0;
 }
 
 BSTHandler::~BSTHandler() {}
 
-void BSTHandler::printPart(CompPart& cp) {	// fix if we want
+void printPart(CompPart& cp) {	// fix if we want
 	std::cout << cp << std::endl;
 }
 
-void BSTHandler::addToList(CompPart& cp) {
-	if (cp.getPartType == partType) {
-		list.insertAt(list.getCount(), cp);
+void addToList(CompPart& cp) {
+	if (cp.getPartType() == BSTHandler::typePart) {
+		BSTHandler::list.insertAt(BSTHandler::list.getCount(), cp);
 	}
 }
 
@@ -44,21 +42,23 @@ bool BSTHandler::remove(CompPart& cp) {
 }
 
 SinglyLinkedList<CompPart>& BSTHandler::getListByPrice(int type) {
-	partType = type;
-	priceBST.inOrderTraverse(this->addToList);
+	list.clear();
+	typePart = type;
+	priceBST.inOrderTraverse(addToList);
 	return list;
 }
 
 SinglyLinkedList<CompPart>& BSTHandler::getListByPerformance(int type) {
-	partType = type;
-	performanceBST.inOrderTraverse(this->addToList);
+	list.clear();
+	typePart = type;
+	performanceBST.inOrderTraverse(addToList);
 	return list;
 }
 
 void BSTHandler::displayListByPrice() {
-	priceBST.inOrderTraverse(this->printPart);
+	priceBST.inOrderTraverse(printPart);
 }
 
 void BSTHandler::displayListByPerformance() {
-	performanceBST.inOrderTraverse(this->printPart);
+	performanceBST.inOrderTraverse(printPart);
 }

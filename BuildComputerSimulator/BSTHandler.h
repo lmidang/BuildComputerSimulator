@@ -2,18 +2,19 @@
 #include "BinarySearchTree.h"
 #include "CompPart.h"
 
+
+void printPart(CompPart&);
+void addToList(CompPart&);
+
 class BSTHandler
 {
 private:
 	BinarySearchTree<CompPart> priceBST;
-	BinarySearchTree<CompPart> performanceBST;
-
-	SinglyLinkedList<CompPart> list;
-	int partType;
-
-	void printPart(CompPart&);
-	void addToList(CompPart&);
+	BinarySearchTree<CompPart> performanceBST; 
 public:
+	static SinglyLinkedList<CompPart> list;
+	static int typePart;
+
 	BSTHandler();
 	void add(CompPart&);
 	bool remove(CompPart&);
