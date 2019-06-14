@@ -58,7 +58,7 @@ void CompPart::setManufacturer(std::string s) {
 	mManufacturer = s;
 }
 
-void CompPart::setPowerConsumption(int i) {
+void CompPart::setPower(int i) {
 	mPower = i;
 }
 
@@ -90,7 +90,7 @@ std::string CompPart::getManufacturer() {
 	return mManufacturer;
 }
 
-int CompPart::getPowerConsumption() {
+int CompPart::getPower() {
 	return mPower;
 }
 
@@ -106,7 +106,7 @@ int CompPart::getSortType() {
 	return mSortType;
 }
 
-std::string CompPart::setCompatibility() {
+std::string CompPart::getCompatibility() {
 	return mCompatibility;
 }
 

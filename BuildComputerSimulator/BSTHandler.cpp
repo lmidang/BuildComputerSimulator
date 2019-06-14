@@ -2,6 +2,7 @@
 
 SinglyLinkedList<CompPart> BSTHandler::list;
 int BSTHandler::typePart = 0;
+std::ofstream BSTHandler::file = std::ofstream();
 
 BSTHandler::BSTHandler()
 {
@@ -21,9 +22,14 @@ void addToList(CompPart& cp) {
 	}
 }
 
+void writeToFile(CompPart &cp) {
+	BSTHandler::file << cp.getPartType() << "," << cp.getName() << "," << cp.getPrice()
+		<< "," << cp.getManufacturer() << "," << cp.getPower() << "," << cp.getPerformanceIndex()
+		<< "," << cp.getCompatibility() << "," << std::endl;
+}
+
 void BSTHandler::add(CompPart& cp) {
 	priceBST.add(cp);
-
 	CompPart item = CompPart(cp);
 	item.setSortType(CompPart::kByPerformanceIndex);
 	performanceBST.add(cp);
@@ -61,4 +67,10 @@ void BSTHandler::displayListByPrice() {
 
 void BSTHandler::displayListByPerformance() {
 	performanceBST.inOrderTraverse(printPart);
+}
+
+void BSTHandler::updateFile(std::string s) {
+	file.open(s);
+	priceBST.preorderTraverse(writeToFile);
+	file.close();
 }

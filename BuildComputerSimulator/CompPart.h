@@ -30,7 +30,7 @@ public:
 	void setName(std::string);
 	void setPrice(double);
 	void setManufacturer(std::string);
-	void setPowerConsumption(int);
+	void setPower(int);
 	void setPerformanceIndex(int);
 	void setCompatibility(std::string);
 	void setSortType(int);
@@ -40,10 +40,10 @@ public:
 	std::string getName();
 	double getPrice();
 	std::string getManufacturer();
-	int getPowerConsumption();
+	int getPower();
 	int getPerformanceIndex();
 	int getPartType();
-	std::string setCompatibility();
+	std::string getCompatibility();
 	int getSortType();
 
 	// Overloaded Functions
