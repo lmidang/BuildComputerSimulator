@@ -91,10 +91,19 @@ void BSTHandler::displayListByPerformance() {
 	performanceBST.inOrderTraverse(printPart);
 }
 
+
+void BSTHandler::displayListByPriceIndented() {
+	priceBST.printIndentedAll();
+}
+
+void BSTHandler::displayListByPerformanceIndented() {
+	performanceBST.printIndentedAll();
+}
+
 void BSTHandler::updateFile(std::string s) {
 	file.open(s);
 	file.open(s, std::ios::app);
 	file <<"Part Type, Name, Price, Manufacturer, Power, Performance Index, Compatibility(or other)," << std::endl;
-	priceBST.preOrderTraverse(writeToFile);
+	priceBST.preorderTraverse(writeToFile);
 	file.close();
 }

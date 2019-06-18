@@ -387,3 +387,24 @@ template <class ItemType>
 void BinarySearchTree<ItemType>::breadthFirstTraverse(void visit(const ItemType &)) {
 	breadthFirst(visit, rootPtr);
 }
+
+template <class ItemType>
+void BinarySearchTree<ItemType>::printIndented(BinaryNode<ItemType>* pNode, int space) {
+	if (pNode == nullptr) {
+		return;
+	}
+
+	space += 3;
+	printIndented(pNode->getLeftChildPtr(), space);
+	for (int i = 3; i < space; i++) {
+		std::cout << " ";
+	}
+	std::cout << pNode->getData() << "\n";
+	printIndented(pNode->getRightChildPtr(), space);
+}
+
+
+template <class ItemType>
+void BinarySearchTree<ItemType>::printIndentedAll() {
+	printIndented(rootPtr, 0);
+}

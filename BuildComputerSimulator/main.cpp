@@ -19,7 +19,7 @@ int main()
 {
 	const string DEFAULT_FILE_NAME = "data.csv";
 	BSTHandler bstHandler;
-	BSTHandler shoppingCartHandler;
+	BinarySearchTree<CompPart> shoppingCart;
 	readFromFile(bstHandler);
 
 	bool isCompletelyDone = false;
@@ -116,11 +116,37 @@ int main()
 					break;
 				}
 				case 5: { // list price
-					bstHandler.displayListByPrice();
+					string displayType[] = { "By Price", "Indented" };
+					size_t displayChoice = menu(displayType, 2);
+
+					switch (displayChoice) {
+					case 0:
+						bstHandler.displayListByPrice();
+						break;
+					case 1:
+						bstHandler.displayListByPriceIndented();
+						break;
+					default:
+						cout << "invalid input\n" << endl;
+						break;
+					}
 					break;
 				}
 				case 6: { // list performance
-					bstHandler.displayListByPerformance();
+					string displayType[] = { "By Price", "Indented" };
+					size_t displayChoice = menu(displayType, 2);
+
+					switch (displayChoice) {
+					case 0:
+						bstHandler.displayListByPerformance();
+						break;
+					case 1:
+						bstHandler.displayListByPerformanceIndented();
+						break;
+					default:
+						cout << "invalid input\n" << endl;
+						break;
+					}
 					break;
 				}
 				case 7: { // efficiency DO THIS LATER

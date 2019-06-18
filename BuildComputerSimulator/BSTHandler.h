@@ -28,6 +28,8 @@ public:
 	SinglyLinkedList<CompPart>& getListByPerformance(int type, double budget = DBL_MAX);
 	void displayListByPrice(int type);
 	void displayListByPerformance(int type);
+	void displayListByPriceIndented();
+	void displayListByPerformanceIndented();
 
 	void displayListByPrice();
 	void displayListByPerformance();

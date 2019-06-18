@@ -107,6 +107,7 @@ protected:
 	*/
 	void breadthFirst(void visit(const ItemType &), BinaryNode<ItemType>*);
 
+	void printIndented(BinaryNode<ItemType>*, int);
 public:
 	class NotFoundException;
 
@@ -175,6 +176,8 @@ public:
 	@param visit
 	*/
 	void breadthFirstTraverse(void visit(const ItemType &));
+
+	void printIndentedAll();
 };
 
 #include "BinarySearchTree.cpp"
