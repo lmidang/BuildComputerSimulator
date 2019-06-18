@@ -11,9 +11,11 @@ private:
 
 	size_t getHashIndex(const unsigned int &) const;
 	size_t getHashIndex(const std::string &) const;
+	static bool isPrime(size_t);
 
 public:
 	HashedDictionary();
+	HashedDictionary(size_t);
 	~HashedDictionary();
 
 	void clear();
@@ -36,6 +38,18 @@ HashedDictionary<KeyType, ItemType>::HashedDictionary() :
 	itemCount(0), hashTableSize(DEFAULT_SIZE) {
 	hashTable = new HashedEntry<KeyType, ItemType> *[hashTableSize];
 	
+	for (size_t i = 0; i < hashTableSize; i++)
+		hashTable[i] = nullptr;
+}
+
+template <typename KeyType, typename ItemType>
+HashedDictionary<KeyType, ItemType>::HashedDictionary(size_t hts) :
+	itemCount(0), hashTableSize(hts) {
+	if (!isPrime(hts))
+		throw "Hash table size isn't prime!";
+
+	hashTable = new HashedEntry<KeyType, ItemType> *[hashTableSize];
+
 	for (size_t i = 0; i < hashTableSize; i++)
 		hashTable[i] = nullptr;
 }
@@ -91,6 +105,16 @@ size_t HashedDictionary<KeyType, ItemType>::getHashIndex(const std::string &sear
 		hash = ((hash << 5) + hash) + searchKey[i];
 
 	return hash % hashTableSize;
+}
+
+template <typename KeyType, typename ItemType>
+bool HashedDictionary<KeyType, ItemType>::isPrime(size_t num) {
+	for (size_t i = 2; i * i <= num; i++) {
+		if (num % i == 0)
+			return false;
+	}
+	
+	return true;
 }
 
 template <typename KeyType, typename ItemType>
