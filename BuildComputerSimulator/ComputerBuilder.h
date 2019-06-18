@@ -1,6 +1,7 @@
 #pragma once
 #include "CompPart.h"
 #include "singly_linked_list.h"
+#include <fstream>
 
 class ComputerBuilder
 {
@@ -20,5 +21,6 @@ public:
 	bool remove(int);
 
 	void listParts();
+	void saveToFile(std::string fileName);
 };
 

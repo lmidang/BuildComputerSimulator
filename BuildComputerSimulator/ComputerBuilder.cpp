@@ -60,3 +60,16 @@ void ComputerBuilder::listParts() {
 		std::cout << mList.getDataAt(i) << std::endl;
 	}
 }
+
+void ComputerBuilder::saveToFile(std::string fileName) {
+	std::ofstream ofile;
+	ofile.open(fileName);
+	for (int i = 0; i < mList.getCount(); i++) {
+		CompPart cp = mList.getDataAt(i);
+		ofile << cp.getPartType() << "," << cp.getName() << "," << cp.getPrice()
+			<< "," << cp.getManufacturer() << "," << cp.getPower() << "," << cp.getPerformanceIndex()
+			<< "," << cp.getCompatibility() << "," << std::endl;
+	}
+	ofile.close();
+
+}
