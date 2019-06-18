@@ -121,6 +121,7 @@
     <ClInclude Include="CompPart.h" />
     <ClInclude Include="ComputerBuilder.h" />
     <ClInclude Include="entry.h" />
+    <ClInclude Include="hashed_database_handler.h" />
     <ClInclude Include="hashed_dictionary.h" />
     <ClInclude Include="hashed_dict_handler.h" />
     <ClInclude Include="hashed_entry.h" />
@@ -134,6 +135,7 @@
     <ClCompile Include="BSTHandler.cpp" />
     <ClCompile Include="CompPart.cpp" />
     <ClCompile Include="ComputerBuilder.cpp" />
+    <ClCompile Include="hashed_database_handler.cpp" />
     <ClCompile Include="hashed_dict_handler.cpp" />
     <ClCompile Include="input_tools.cpp" />
     <ClCompile Include="main.cpp" />

@@ -94,6 +94,7 @@ void BSTHandler::displayListByPerformance() {
 
 void BSTHandler::updateFile(std::string s) {
 	file.open(s);
+	file <<"Part Type, Name, Price, Manufacturer, Power, Performance Index, Compatibility(or other)," << std::endl;
 	priceBST.preorderTraverse(writeToFile);
 	file.close();
 }

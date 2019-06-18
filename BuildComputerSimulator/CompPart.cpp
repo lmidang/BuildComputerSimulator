@@ -70,6 +70,10 @@ void CompPart::setSortType(int i) {
 	mSortType = i;
 }
 
+void CompPart::setPartType(int i) {
+	mPartType = i;
+}
+
 std::string CompPart::getName() const {
 	return mName;
 }
@@ -176,6 +180,9 @@ std::istream &operator>>(std::istream &is, CompPart &cp) {
 
 	std::string line;
 	std::getline(is, line);
+	if (line == "") {
+		throw CompPart::ExtraSpaceException();
+	}
 	cp.mPartType = stoi(line.substr(0, line.find(',')));
 
 	line = line.substr(line.find(',') + 1);

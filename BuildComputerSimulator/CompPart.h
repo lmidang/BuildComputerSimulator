@@ -16,6 +16,7 @@ protected:
 	int mSortType;	// default kByPrice
 public:
 	class BadSortTypeException {};
+	class ExtraSpaceException {};
 
 	enum partTypes { kCPU, kCooler, kMotherBoard, kMemory, kVideoCard, kStorage, kCase, kPowerSupply };
 	enum sortTypes { kByPrice, kByPerformanceIndex };
@@ -36,6 +37,7 @@ public:
 	void setPerformanceIndex(int);
 	void setCompatibility(std::string);
 	void setSortType(int);
+	void setPartType(int);
 
 	// Accessors
 	std::string getName() const;

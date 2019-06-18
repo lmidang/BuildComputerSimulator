@@ -22,6 +22,9 @@
     <ClCompile Include="hashed_dict_handler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="hashed_database_handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryNode.h">
@@ -64,6 +67,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hashed_dict_handler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hashed_database_handler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
