@@ -127,19 +127,19 @@ bool HashedDictionary<KeyType, ItemType>::remove(const KeyType &searchKey) {
 		}
 		else {
 			HashedEntry<KeyType, ItemType> *pPrev = hashTable[itemHashIndex];
-			HashedEntry<KeyType, ItemType> *pCur = pPrev->getNext();
+			HashedEntry<KeyType, ItemType> *pCurr = pPrev->getNext();
 
-			while (pCur != nullptr && !itemFound) {
-				if (searchKey == pCur->getKey()) {
-					pPrev->setNext(pCur->getNext());
-					delete pCur;
-					pCur = nullptr;
+			while (pCurr != nullptr && !itemFound) {
+				if (searchKey == pCurr->getKey()) {
+					pPrev->setNext(pCurr->getNext());
+					delete pCurr;
+					pCurr = nullptr;
 					itemFound = true;
 					itemCount--;
 				}
 				else {
-					pPrev = pCur;
-					pCur = pCur->getNext();
+					pPrev = pCurr;
+					pCurr = pCurr->getNext();
 				}
 			}
 		}
@@ -152,13 +152,25 @@ template <typename KeyType, typename ItemType>
 ItemType HashedDictionary<KeyType, ItemType>::getItem(const KeyType &searchKey) {
 	size_t itemHashIndex = getHashIndex(searchKey);
 
-	HashedEntry<KeyType, ItemType> *pCurr = hashTable[itemHashIndex];
+	if (hashTable[itemHashIndex] != nullptr) {
+		if (searchKey == hashTable[itemHashIndex]->getKey())
+			return hashTable[itemHashIndex]->getItem();
 
-	while (pCurr != nullptr) {
-		if (searchKey == pCurr->getKey())
-			return pCurr->getItem();
+		HashedEntry<KeyType, ItemType> *pPrev = hashTable[itemHashIndex];
+		HashedEntry<KeyType, ItemType> *pCurr = pPrev->getNext();
 
-		pCurr = pCurr->getNext();
+		while (pCurr != nullptr) {
+			if (searchKey == pCurr->getKey()) {
+				pPrev->setNext(pCurr->getNext());
+				pCurr->setNext(hashTable[itemHashIndex]);
+				hashTable[itemHashIndex] = pCurr;
+				return pCurr->getItem();
+			}
+			else {
+				pPrev = pCurr;
+				pCurr = pCurr->getNext();
+			}
+		}
 	}
 
 	throw "Item not found!";
@@ -168,13 +180,25 @@ template <typename KeyType, typename ItemType>
 bool HashedDictionary<KeyType, ItemType>::contains(const KeyType &searchKey) {
 	size_t itemHashIndex = getHashIndex(searchKey);
 
-	HashedEntry<KeyType, ItemType> *pCurr = hashTable[itemHashIndex];
-
-	while (pCurr != nullptr) {
-		if (searchKey == pCurr->getKey())
+	if (hashTable[itemHashIndex] != nullptr) {
+		if (searchKey == hashTable[itemHashIndex]->getKey())
 			return true;
 
-		pCurr = pCurr->getNext();
+		HashedEntry<KeyType, ItemType> *pPrev = hashTable[itemHashIndex];
+		HashedEntry<KeyType, ItemType> *pCurr = pPrev->getNext();
+
+		while (pCurr != nullptr) {
+			if (searchKey == pCurr->getKey()) {
+				pPrev->setNext(pCurr->getNext());
+				pCurr->setNext(hashTable[itemHashIndex]);
+				hashTable[itemHashIndex] = pCurr;
+				return true;
+			}
+			else {
+				pPrev = pCurr;
+				pCurr = pCurr->getNext();
+			}
+		}
 	}
 
 	return false;
