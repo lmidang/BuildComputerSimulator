@@ -144,6 +144,9 @@
   <ItemGroup>
     <None Include="data.csv" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="shopping_cart.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

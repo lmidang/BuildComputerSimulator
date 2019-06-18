@@ -3,9 +3,9 @@
 #include "CompPart.h"
 
 
-void printPart(CompPart&);
-void addToList(CompPart&);
-void writeToFile(CompPart&);
+void printPart(const CompPart&);
+void addToList(const CompPart&);
+void writeToFile(const CompPart&);
 
 class BSTHandler
 {
@@ -25,7 +25,7 @@ public:
 
 	// for specific parts list
 	SinglyLinkedList<CompPart>& getListByPrice(int type, double budget = DBL_MAX);
-	SinglyLinkedList<CompPart>& getListByPerformance(int type);
+	SinglyLinkedList<CompPart>& getListByPerformance(int type, double budget = DBL_MAX);
 	void displayListByPrice(int type);
 	void displayListByPerformance(int type);
 
