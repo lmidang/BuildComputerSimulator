@@ -6,7 +6,7 @@ class ComputerBuilder
 {
 	SinglyLinkedList<CompPart> mList;	
 	int parts[8];
-	std::string partsString[] = { "CPU", "CPUCooler", "Mother Board", "Memory", "Video Card", "Storage", "Case", "Power Supply" };
+	std::string partsString[8] = { "CPU", "CPUCooler", "Mother Board", "Memory", "Video Card", "Storage", "Case", "Power Supply" };
 
 public:
 	ComputerBuilder();

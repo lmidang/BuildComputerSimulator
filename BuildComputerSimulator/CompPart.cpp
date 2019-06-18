@@ -173,25 +173,26 @@ std::istream &operator>>(std::istream &is, CompPart &cp) {
 
 	std::string line;
 	std::getline(is, line);
-	cp.mPartType = stoi(line.substr(line.find(',') + 1));
+	cp.mPartType = stoi(line.substr(0, line.find(',')));
 
 	line = line.substr(line.find(',') + 1);
-	cp.mName = line.substr(line.find(',') + 1);
+	cp.mName = line.substr(0, line.find(','));
+	//std::cout << cp.mName << std::endl;
 	
 	line = line.substr(line.find(',') + 1);
-	cp.mPrice = stod(line.substr(line.find(',') + 1));
+	cp.mPrice = stod(line.substr(0, line.find(',')));
 	
 	line = line.substr(line.find(',') + 1);
-	cp.mManufacturer = line.substr(line.find(',') + 1);
+	cp.mManufacturer = line.substr(0, line.find(','));
 	
 	line = line.substr(line.find(',') + 1);
-	cp.mPower = stoi(line.substr(line.find(',') + 1));
+	cp.mPower = stoi(line.substr(0, line.find(',')));
 	
 	line = line.substr(line.find(',') + 1);
-	cp.mPerformanceIndex = stoi(line.substr(line.find(',') + 1));
+	cp.mPerformanceIndex = stoi(line.substr(0, line.find(',')));
 	if ((cp.mPartType == CompPart::kCPU) || (cp.mPartType == CompPart::kMotherBoard)) {	// check this later
 		line = line.substr(line.find(',') + 1);
-		cp.mCompatibility = line.substr(line.find(',') + 1);
+		cp.mCompatibility = line.substr(0, line.find(','));
 	}
 	return is;
 }
