@@ -54,3 +54,9 @@ ComputerBuilder::~ComputerBuilder()
 {
 	mList.clear();
 }
+
+void ComputerBuilder::listParts() {
+	for (int i = 0; i < mList.getCount(); i++) {
+		std::cout << mList.getDataAt(i) << std::endl;
+	}
+}

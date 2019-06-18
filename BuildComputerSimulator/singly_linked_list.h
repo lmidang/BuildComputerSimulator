@@ -1,18 +1,18 @@
 #pragma once
 #include "node.h"
 
-template <typename T>
+template <typename ItemType>
 class SinglyLinkedList {
 private:
 	// Makes a deep copy of another singly linked list
-	void copyFrom(const SinglyLinkedList<T> &);
+	void copyFrom(const SinglyLinkedList<ItemType> &);
 
 	// Returns the node at the specified index (no bounds checking)
-	Node<T> * getNodeAt(size_t) const;
+	Node<ItemType> * getNodeAt(size_t) const;
 
 protected:
 	// Pointers to the first and last node in this list, respectively
-	Node<T> *pHead, *pTail;
+	Node<ItemType> *pHead, *pTail;
 
 	// The number of nodes in this list
 	size_t count;
@@ -22,7 +22,7 @@ public:
 	SinglyLinkedList();
 
 	// Copy constructor
-	SinglyLinkedList(const SinglyLinkedList<T> &);
+	SinglyLinkedList(const SinglyLinkedList<ItemType> &);
 
 	// Virtual destructor
 	virtual ~SinglyLinkedList();
@@ -34,13 +34,13 @@ public:
 	bool isEmpty() const;
 
 	// Returns the data at the specified index (has bounds checking)
-	T getDataAt(size_t) const;
+	ItemType getDataAt(size_t) const;
 
 	// Sets the data of the node at the specified index
-	void setDataAt(size_t, const T &);
+	void setDataAt(size_t, const ItemType &);
 
 	// Creates a new node with the specified data and inserts it at the specified index
-	void insertAt(size_t, const T &);
+	void insertAt(size_t, const ItemType &);
 
 	// Deletes the node at the specified index
 	void deleteAt(size_t);
@@ -49,23 +49,23 @@ public:
 	void clear();
 
 	// Overloaded assignment operator
-	SinglyLinkedList<T> & operator =(const SinglyLinkedList<T> &);
+	SinglyLinkedList<ItemType> & operator =(const SinglyLinkedList<ItemType> &);
 
 	// Overloaded insertion operator
-	template <typename T>
-	friend std::ostream & operator <<(std::ostream &, const SinglyLinkedList<T> &);
+	template <typename ItemType>
+	friend std::ostream & operator <<(std::ostream &, const SinglyLinkedList<ItemType> &);
 };
 
-template <typename T>
-SinglyLinkedList<T>::SinglyLinkedList() : pHead(nullptr), pTail(nullptr), count(0) {}
+template <typename ItemType>
+SinglyLinkedList<ItemType>::SinglyLinkedList() : pHead(nullptr), pTail(nullptr), count(0) {}
 
-template <typename T>
-SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T> &list) : pHead(nullptr), pTail(nullptr), count(0) {
+template <typename ItemType>
+SinglyLinkedList<ItemType>::SinglyLinkedList(const SinglyLinkedList<ItemType> &list) : pHead(nullptr), pTail(nullptr), count(0) {
 	copyFrom(list);
 }
 
-template <typename T>
-SinglyLinkedList<T>::~SinglyLinkedList() {
+template <typename ItemType>
+SinglyLinkedList<ItemType>::~SinglyLinkedList() {
 	clear();
 }
 
@@ -83,18 +83,18 @@ Pseudocode:
 
 	- Set the tail to point to the end of the list.
 */
-template <typename T>
-void SinglyLinkedList<T>::copyFrom(const SinglyLinkedList<T> &list) {
+template <typename ItemType>
+void SinglyLinkedList<ItemType>::copyFrom(const SinglyLinkedList<ItemType> &list) {
 	clear();
 
-	Node<T> *pOrigNode = list.pHead;
+	Node<ItemType> *pOrigNode = list.pHead;
 
 	if (pOrigNode != nullptr) {
 		// Copy the first node
-		pHead = new Node<T>(pOrigNode->getData());
+		pHead = new Node<ItemType>(pOrigNode->getData());
 
 		// Point to the first node
-		Node<T> *pCurrNode = pHead;
+		Node<ItemType> *pCurrNode = pHead;
 
 		pOrigNode = pOrigNode->getNext();
 
@@ -102,7 +102,7 @@ void SinglyLinkedList<T>::copyFrom(const SinglyLinkedList<T> &list) {
 
 		// Copy the remaining nodes
 		while (pOrigNode != nullptr) {
-			pCurrNode->setNext(new Node<T>(pOrigNode->getData()));
+			pCurrNode->setNext(new Node<ItemType>(pOrigNode->getData()));
 
 			pCurrNode = pCurrNode->getNext();
 			pOrigNode = pOrigNode->getNext();
@@ -114,13 +114,13 @@ void SinglyLinkedList<T>::copyFrom(const SinglyLinkedList<T> &list) {
 	}
 }
 
-template <typename T>
-size_t SinglyLinkedList<T>::getCount() const {
+template <typename ItemType>
+size_t SinglyLinkedList<ItemType>::getCount() const {
 	return count;
 }
 
-template <typename T>
-bool SinglyLinkedList<T>::isEmpty() const {
+template <typename ItemType>
+bool SinglyLinkedList<ItemType>::isEmpty() const {
 	return !count;
 }
 
@@ -130,9 +130,9 @@ Pseudocode:
 - Loop through the list until reaching the node at the specified index.
 - Return that node.
 */
-template <typename T>
-Node<T> * SinglyLinkedList<T>::getNodeAt(size_t index) const {
-	Node<T> *pCurrNode = pHead;
+template <typename ItemType>
+Node<ItemType> * SinglyLinkedList<ItemType>::getNodeAt(size_t index) const {
+	Node<ItemType> *pCurrNode = pHead;
 
 	for (size_t i = 0; i < index; i++)
 		pCurrNode = pCurrNode->getNext();
@@ -140,16 +140,16 @@ Node<T> * SinglyLinkedList<T>::getNodeAt(size_t index) const {
 	return pCurrNode;
 }
 
-template <typename T>
-T SinglyLinkedList<T>::getDataAt(size_t index) const {
+template <typename ItemType>
+ItemType SinglyLinkedList<ItemType>::getDataAt(size_t index) const {
 	if (index < 0 || index >= count)
 		throw "Index is out of range.";
 
 	return getNodeAt(index)->getData();
 }
 
-template <typename T>
-void SinglyLinkedList<T>::setDataAt(size_t index, const T &data) {
+template <typename ItemType>
+void SinglyLinkedList<ItemType>::setDataAt(size_t index, const ItemType &data) {
 	if (index < 0 || index >= count)
 		throw "Index is out of range.";
 
@@ -176,12 +176,12 @@ element plus one.
 
 - Increment count.
 */
-template <typename T>
-void SinglyLinkedList<T>::insertAt(size_t index, const T &data) {
+template <typename ItemType>
+void SinglyLinkedList<ItemType>::insertAt(size_t index, const ItemType &data) {
 	if (index < 0 || index > count)
 		throw "Index is out of range.";
 
-	Node<T> *pNewNode = new Node<T>(data);
+	Node<ItemType> *pNewNode = new Node<ItemType>(data);
 
 	if (index == count)
 		pTail = pNewNode;
@@ -194,7 +194,7 @@ void SinglyLinkedList<T>::insertAt(size_t index, const T &data) {
 	// Insert new node to middle or end of linked list
 	else {
 		// Get node that will be before new node
-		Node<T> *pPrevNode = getNodeAt(index - 1);
+		Node<ItemType> *pPrevNode = getNodeAt(index - 1);
 
 		pNewNode->setNext(pPrevNode->getNext());
 		pPrevNode->setNext(pNewNode);
@@ -221,12 +221,12 @@ last elements, inclusive.
 - Set the node to nullptr.
 - Decrement count.
 */
-template <typename T>
-void SinglyLinkedList<T>::deleteAt(size_t index) {
+template <typename ItemType>
+void SinglyLinkedList<ItemType>::deleteAt(size_t index) {
 	if (index < 0 || index >= count)
 		throw "Index is out of range.";
 
-	Node<T> *pCurNode;
+	Node<ItemType> *pCurNode;
 
 	// Delete the first node of the linked list
 	if (index == 0) {
@@ -236,7 +236,7 @@ void SinglyLinkedList<T>::deleteAt(size_t index) {
 	// Delete a node in the middle or end of the linked list
 	else {
 		// Get node that is before the one to delete
-		Node<T> *pPrevNode = getNodeAt(index - 1);
+		Node<ItemType> *pPrevNode = getNodeAt(index - 1);
 
 		pCurNode = pPrevNode->getNext();
 
@@ -258,14 +258,14 @@ Pseudocode:
 - While the list still contains nodes:
 	- Delete the first node.
 */
-template <typename T>
-void SinglyLinkedList<T>::clear() {
+template <typename ItemType>
+void SinglyLinkedList<ItemType>::clear() {
 	while (!isEmpty())
 		deleteAt(0);
 }
 
-template <typename T>
-SinglyLinkedList<T> & SinglyLinkedList<T>::operator =(const SinglyLinkedList<T> &list) {
+template <typename ItemType>
+SinglyLinkedList<ItemType> & SinglyLinkedList<ItemType>::operator =(const SinglyLinkedList<ItemType> &list) {
 	copyFrom(list);
 
 	return *this;
@@ -277,9 +277,9 @@ Pseudocode:
 - Loop through the linked list:
 	- Output each node to the specified stream, using the node's overloaded insertion operator.
 */
-template <typename T>
-std::ostream & operator <<(std::ostream &stream, const SinglyLinkedList<T> &list) {
-	Node<T> *pNode = list.pHead;
+template <typename ItemType>
+std::ostream & operator <<(std::ostream &stream, const SinglyLinkedList<ItemType> &list) {
+	Node<ItemType> *pNode = list.pHead;
 
 	while (pNode != nullptr) {
 		stream << *pNode;

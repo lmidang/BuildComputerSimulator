@@ -1,14 +1,14 @@
 #pragma once
 #include "singly_linked_list.h"
 
-template <typename T>
-class Queue : protected SinglyLinkedList<T> {
+template <typename ItemType>
+class Queue : protected SinglyLinkedList<ItemType> {
 public:
 	// Default constructor
 	Queue();
 
 	// Copy constructor
-	Queue(const Queue<T> &);
+	Queue(const Queue<ItemType> &);
 
 	// Virtual destructor
 	virtual ~Queue();
@@ -17,37 +17,37 @@ public:
 	bool isEmpty() const;
 
 	// Returns the data in the front node of this queue
-	T front() const;
+	ItemType front() const;
 
 	// Returns the data in the rear of this queue
-	T rear() const;
+	ItemType rear() const;
 
 	// Enqueue a new node with the specified data to the back of this queue
-	void enqueue(const T &);
+	void enqueue(const ItemType &);
 
 	// Dequeue the node at the front of this queue
 	void dequeue();
 
 	// Overloaded assignment operator
-	Queue<T> & operator =(const Queue<T> &);
+	Queue<ItemType> & operator =(const Queue<ItemType> &);
 
 	// Overloaded insertion operator
-	template <typename T>
-	friend std::ostream & operator <<(std::ostream &, const Queue<T> &);
+	template <typename ItemType>
+	friend std::ostream & operator <<(std::ostream &, const Queue<ItemType> &);
 };
 
-template <typename T>
-Queue<T>::Queue() {}
+template <typename ItemType>
+Queue<ItemType>::Queue() {}
 
-template <typename T>
-Queue<T>::Queue(const Queue<T> &queue) : SinglyLinkedList<T>(queue) {}
+template <typename ItemType>
+Queue<ItemType>::Queue(const Queue<ItemType> &queue) : SinglyLinkedList<ItemType>(queue) {}
 
-template <typename T>
-Queue<T>::~Queue() {}
+template <typename ItemType>
+Queue<ItemType>::~Queue() {}
 
-template <typename T>
-bool Queue<T>::isEmpty() const {
-	return SinglyLinkedList<T>::isEmpty();
+template <typename ItemType>
+bool Queue<ItemType>::isEmpty() const {
+	return SinglyLinkedList<ItemType>::isEmpty();
 }
 
 /*
@@ -56,8 +56,8 @@ Pseudocode:
 - Make sure the queue isn't empty.
 - Returns the data in the front node of the queue.
 */
-template <typename T>
-T Queue<T>::front() const {
+template <typename ItemType>
+ItemType Queue<ItemType>::front() const {
 	if (isEmpty())
 		throw "Queue is empty.";
 
@@ -70,8 +70,8 @@ Pseudocode:
 - Make sure the queue isn't empty.
 - Returns the data in the rear node of the queue.
 */
-template <typename T>
-T Queue<T>::rear() const {
+template <typename ItemType>
+ItemType Queue<ItemType>::rear() const {
 	if (isEmpty())
 		throw "Queue is empty.";
 
@@ -83,12 +83,12 @@ Pseudocode:
 
 - Insert a new node with the specified data into the first index of the queue.
 */
-template <typename T>
-void Queue<T>::enqueue(const T &data) {
+template <typename ItemType>
+void Queue<ItemType>::enqueue(const ItemType &data) {
 	if (this->getCount() == 0)
 		this->insertAt(0, data);
 	else {
-		Node<T> *newNode = new Node<T>(data);
+		Node<ItemType> *newNode = new Node<ItemType>(data);
 		this->pTail->setNext(newNode);
 		this->pTail = newNode;
 		this->count++;
@@ -101,8 +101,8 @@ Pseudocode:
 - Make sure the queue isn't empty.
 - Delete the node at the first index of the queue.
 */
-template <typename T>
-void Queue<T>::dequeue() {
+template <typename ItemType>
+void Queue<ItemType>::dequeue() {
 	if (isEmpty())
 		throw "Queue is empty.";
 
@@ -110,9 +110,9 @@ void Queue<T>::dequeue() {
 }
 
 // Overloaded assignment operator
-template <typename T>
-Queue<T> & Queue<T>::operator =(const Queue<T> &queue) {
-	SinglyLinkedList<T>::operator =(queue);
+template <typename ItemType>
+Queue<ItemType> & Queue<ItemType>::operator =(const Queue<ItemType> &queue) {
+	SinglyLinkedList<ItemType>::operator =(queue);
 
 	return *this;
 }
@@ -122,7 +122,7 @@ Pseudocode:
 
 - Output this node's data to the specified stream.
 */
-template <typename T>
-std::ostream & operator <<(std::ostream &stream, const Queue<T> &queue) {
-	return stream << static_cast<SinglyLinkedList<T>>(queue);
+template <typename ItemType>
+std::ostream & operator <<(std::ostream &stream, const Queue<ItemType> &queue) {
+	return stream << static_cast<SinglyLinkedList<ItemType>>(queue);
 }

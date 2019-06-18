@@ -71,103 +71,83 @@ template <class ItemType>
 bool BinarySearchTree<ItemType>::add(const ItemType& newData) {
 	BinaryNode<ItemType>* newNodePtr = new BinaryNode<ItemType>(newData);
 	rootPtr = insertInOrder(rootPtr, newNodePtr);
+
 	return true;
 }
 
-/** removeValue
-1 if subTreePtr is nullptr
-	1 removal not successful
-2 else if subTreePtr data is item
-	1 removeNode(subTreePtr)
-	2 return subTreePtr
-3 else if subTree data is greater than item
-	1 removeValue from left child subtree
-	2 return subTreePtr
-4 else 
-	1 removeValue from right child subtree
-	2 return subtreePtr
-*/
-template <class ItemType>
-BinaryNode<ItemType>* BinarySearchTree<ItemType>::removeValue(BinaryNode<ItemType>* subTreePtr, ItemType item, bool &success)
-{	
-	if (subTreePtr == nullptr) {
+// Removes a target value from a binary search tree recursively
+template <typename ItemType>
+BinaryNode<ItemType> * BinarySearchTree<ItemType>::removeValue(BinaryNode<ItemType> *pSubTree, const ItemType target, bool &success) {
+	if (pSubTree == nullptr) {
 		success = false;
 		return nullptr;
 	}
-	else if (subTreePtr->getData() == item) {
-		subTreePtr = removeNode(subTreePtr);
+	else if (pSubTree->getData() == target) {
+		pSubTree = removeNode(pSubTree);
 		success = true;
-		return subTreePtr;
+		return pSubTree;
 	}
-	else if (subTreePtr->getData() > item) {
-		BinaryNode<ItemType>* tempPtr = removeValue(subTreePtr->getLeftChildPtr(), item, success);
-		subTreePtr->setLeftChildPtr(tempPtr);
-		return subTreePtr;
+	else if (pSubTree->getData() > target) {
+		BinaryNode<ItemType> *tempPtr = removeValue(pSubTree->getLeftChildPtr(), target, success);
+		pSubTree->setLeftChildPtr(tempPtr);
+		return pSubTree;
+
 	}
 	else {
-		BinaryNode<ItemType>* tempPtr = removeValue(subTreePtr->getRightChildPtr(), item, success);
-		subTreePtr->setRightChildPtr(tempPtr);
-		return subTreePtr;
+		BinaryNode<ItemType> *tempPtr = removeValue(pSubTree->getRightChildPtr(), target, success);
+		pSubTree->setRightChildPtr(tempPtr);
+		return pSubTree;
 	}
 }
 
-/** removes node
-1 if nodePtr is leaf
-	1 delete node
-	2 return nodePtr
-2 else if nodeptr has one child
-	1 if leftChildPtr exists
-		1 connect nodePtr leftChild
-	2 else
-		1 connect nodePtr rigthChild
-	3 delete nodePtr
-	4 return nodeToConnectPtr
-3 else 
-	1 set nodePtr right child to removeLeftmostNode(nodePtr right childe, newNodeValue)
-	2 set nodePtr setData to newNodeValue
-	3 return nodePtr
-*/
-template <class ItemType>
-BinaryNode<ItemType>* BinarySearchTree<ItemType>::removeNode(BinaryNode<ItemType>* nodePtr) {
-	if (nodePtr->isLeaf()) {
-		delete nodePtr;
-		nodePtr = nullptr;
-		return nodePtr;
+//removes a node from the binary search tree
+//checks if node has child nodes
+//if does not, delete node
+template <typename ItemType>
+BinaryNode<ItemType> * BinarySearchTree<ItemType>::removeNode(BinaryNode<ItemType> *pNode) {
+	bool hasLeftChild = pNode->getLeftChildPtr() != nullptr,
+		hasRightChild = pNode->getRightChildPtr() != nullptr;
+
+	if (!hasLeftChild && !hasRightChild) {
+		delete pNode;
+		pNode = nullptr;
+		return pNode;
 	}
-	else if (nodePtr->getNumChildren() == 1) {
-		BinaryNode<ItemType> *nodeToConnectPtr;
-		if (nodePtr->getLeftChildPtr() != nullptr) {
-			nodeToConnectPtr = nodePtr->getLeftChildPtr();
+
+	if (hasLeftChild != hasRightChild) {
+		BinaryNode<ItemType> *pChild;
+
+		if (hasLeftChild) {
+			pChild = pNode->getLeftChildPtr();
 		}
-		else
-			nodeToConnectPtr = nodePtr->getRightChildPtr();
-		delete nodePtr;
-		nodePtr = nullptr;
-		return nodeToConnectPtr;
+		else {
+			pChild = pNode->getRightChildPtr();
+		}
+
+		delete pNode;
+		pNode = nullptr;
+		return pChild;
 	}
 	else {
-		ItemType newNodeValue;
-		BinaryNode<ItemType> *tempPtr = removeLeftmostNode(nodePtr->getRightChildPtr(), newNodeValue);
-		nodePtr->setRightChildPtr(tempPtr);
-		nodePtr->setData(newNodeValue);
-		return nodePtr;
+		ItemType newNodeData;
+		BinaryNode<ItemType> *tempPtr = removeLeftmostNode(pNode->getRightChildPtr(), newNodeData);
+		pNode->setRightChildPtr(tempPtr);
+		pNode->setData(newNodeData);
+		return pNode;
 	}
+
 }
 
-/** removeLeftmostNode
-if nodePtr has no left child, set inorderSuccessor to nodePtrData and return removeNode(nodePtr)
-else return removeLeftMostNode(nodePtr left child, inorderSuccessor)
-*/
-template <class ItemType>
-BinaryNode<ItemType>* BinarySearchTree<ItemType>::removeLeftmostNode(BinaryNode<ItemType>* nodePtr, ItemType &inorderSuccessor)
-{
-	if (nodePtr->getLeftChildPtr() == nullptr) {
-		inorderSuccessor = nodePtr->getData();
-		return removeNode(nodePtr);
+// removes leftmost
+template <typename ItemType>
+BinaryNode<ItemType> * BinarySearchTree<ItemType>::removeLeftmostNode(BinaryNode<ItemType> *pSubTree, ItemType &inorderSuccessor) {
+	if (pSubTree->getLeftChildPtr() == nullptr) {
+		inorderSuccessor = pSubTree->getData();
+		return removeNode(pSubTree);
 	}
-	else {
-		return removeLeftmostNode(nodePtr->getLeftChildPtr(), inorderSuccessor);
-	}
+
+	pSubTree->setLeftChildPtr(removeLeftmostNode(pSubTree->getLeftChildPtr(), inorderSuccessor));
+	return pSubTree;
 }
 
 /** remove

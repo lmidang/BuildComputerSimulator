@@ -49,8 +49,8 @@ public:
 	int getNumChildren();
 
 	/** overloads output operator */
-	template <typename T>
-	friend std::ostream& operator<<(std::ostream&, BinaryNode<T>&);
+	template <typename ItemType>
+	friend std::ostream& operator<<(std::ostream&, BinaryNode<ItemType>&);
 };
 
 #include "BinaryNode.cpp"

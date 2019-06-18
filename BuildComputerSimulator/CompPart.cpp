@@ -2,7 +2,6 @@
 
 CompPart::CompPart()
 {
-	mProductNumber = "";
 	mName = "";
 	mPrice = 0;
 	mManufacturer = "";
@@ -10,12 +9,11 @@ CompPart::CompPart()
 	mPerformanceIndex = -1;
 	mPartType = -1;
 	mCompatibility = "";
-	mSortType = 0;
+	mSortType = kByPrice;
 }
 
-CompPart::CompPart(std::string productNum, std::string name, double price, std::string manufacturer, int power,
+CompPart::CompPart(std::string name, double price, std::string manufacturer, int power,
 	int performance, int partType, std::string compatibility) {
-	mProductNumber = productNum;
 	mName = name;
 	mPrice = price;
 	mManufacturer = manufacturer;
@@ -23,11 +21,10 @@ CompPart::CompPart(std::string productNum, std::string name, double price, std::
 	mPerformanceIndex = performance;
 	mPartType = partType;
 	mCompatibility = compatibility;
-	mSortType = 0;
+	mSortType = kByPrice;
 }
 
 CompPart::CompPart(const CompPart& cp) {
-	mProductNumber = cp.mProductNumber;
 	mName = cp.mName;
 	mPrice = cp.mPrice;
 	mManufacturer = cp.mManufacturer;
@@ -40,10 +37,6 @@ CompPart::CompPart(const CompPart& cp) {
 
 CompPart::~CompPart()
 {
-}
-
-void CompPart::setProductNumber(std::string s) {
-	mProductNumber = s;
 }
 
 void CompPart::setName(std::string s) {
@@ -72,10 +65,6 @@ void CompPart::setCompatibility(std::string s) {
 
 void CompPart::setSortType(int i) {
 	mSortType = i;
-}
-
-std::string CompPart::getProductNumber() {
-	return mProductNumber;
 }
 
 std::string CompPart::getName() {
@@ -112,7 +101,6 @@ std::string CompPart::getCompatibility() {
 
 CompPart& CompPart::operator=(const CompPart &cp) {
 	if (!(*this == cp)) {
-		mProductNumber = cp.mProductNumber;
 		mName = cp.mName;
 		mPrice = cp.mPrice;
 		mManufacturer = cp.mManufacturer;
@@ -125,7 +113,7 @@ CompPart& CompPart::operator=(const CompPart &cp) {
 }
 
 bool operator==(const CompPart& cp1, const CompPart& cp2) {
-	return (cp1.mProductNumber == cp2.mProductNumber) && (cp1.mName == cp2.mName) &&
+	return (cp1.mName == cp2.mName) &&
 		(cp1.mPrice == cp2.mPrice) && (cp1.mManufacturer == cp2.mManufacturer) &&
 		(cp1.mPower == cp2.mPower) &&
 		(cp1.mPerformanceIndex == cp2.mPerformanceIndex) &&
@@ -163,8 +151,8 @@ bool operator<(const CompPart& cp1, const CompPart& cp2) {
 	}
 }
 
-std::ostream &operator<<(std::ostream &os, CompPart &cp) { // prob fix this later
-	os << cp.mName << " " << cp.mPartType << " " << cp.mManufacturer << " " << cp.mPrice;
+std::ostream &operator<<(std::ostream &os, const CompPart &cp) { // prob fix this later
+	os << cp.mPartType << " || " << cp.mName << " || " << cp.mManufacturer << " || $" << cp.mPrice << " || " << cp.mPerformanceIndex;
 	return os;
 }
 
@@ -193,6 +181,9 @@ std::istream &operator>>(std::istream &is, CompPart &cp) {
 	if ((cp.mPartType == CompPart::kCPU) || (cp.mPartType == CompPart::kMotherBoard)) {	// check this later
 		line = line.substr(line.find(',') + 1);
 		cp.mCompatibility = line.substr(0, line.find(','));
+	}
+	else {
+		cp.mCompatibility == "";
 	}
 	return is;
 }

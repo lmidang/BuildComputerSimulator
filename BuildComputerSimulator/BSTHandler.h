@@ -21,9 +21,13 @@ public:
 	BSTHandler();
 	void add(CompPart&);
 	bool remove(CompPart&);
-
+	
+	// for specific parts list
 	SinglyLinkedList<CompPart>& getListByPrice(int type);
 	SinglyLinkedList<CompPart>& getListByPerformance(int type);
+	void displayListByPrice(int type);
+	void displayListByPerformance(int type);
+
 	void displayListByPrice();
 	void displayListByPerformance();
 	void updateFile(std::string s);

@@ -5,7 +5,6 @@
 class CompPart
 {
 protected:
-	std::string mProductNumber;
 	std::string mName;
 	double mPrice;
 	std::string mManufacturer;
@@ -21,12 +20,11 @@ public:
 	enum sortTypes { kByPrice, kByPerformanceIndex };
 
 	CompPart();
-	CompPart(std::string, std::string, double, std::string, int, int, int, std::string);
+	CompPart(std::string, double, std::string, int, int, int, std::string);
 	CompPart(const CompPart&);
 	virtual ~CompPart();
 
 	// Mutators
-	void setProductNumber(std::string);
 	void setName(std::string);
 	void setPrice(double);
 	void setManufacturer(std::string);
@@ -36,7 +34,6 @@ public:
 	void setSortType(int);
 
 	// Accessors
-	std::string getProductNumber();
 	std::string getName();
 	double getPrice();
 	std::string getManufacturer();
@@ -51,6 +48,6 @@ public:
 	friend bool operator== (const CompPart&, const CompPart&);
 	friend bool operator>(const CompPart&, const CompPart&);
 	friend bool operator<(const CompPart&, const CompPart&);
-	friend std::ostream &operator<<(std::ostream&, CompPart&);
+	friend std::ostream &operator<<(std::ostream&, const CompPart&);
 	friend std::istream &operator>>(std::istream&, CompPart&);
 };

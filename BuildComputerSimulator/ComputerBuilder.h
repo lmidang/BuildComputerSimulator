@@ -18,5 +18,7 @@ public:
 
 	bool add(CompPart&);
 	bool remove(int);
+
+	void listParts();
 };
 

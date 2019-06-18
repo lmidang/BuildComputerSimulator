@@ -29,21 +29,25 @@ void writeToFile(CompPart &cp) {
 }
 
 void BSTHandler::add(CompPart& cp) {
+	cp.setSortType(CompPart::kByPrice);
 	priceBST.add(cp);
+	
 	CompPart item = CompPart(cp);
 	item.setSortType(CompPart::kByPerformanceIndex);
-	performanceBST.add(cp);
+	performanceBST.add(item);
 }
 
 bool BSTHandler::remove(CompPart& cp) {
 	bool gotem1;
-	bool gotem2;
-	cp.setSortType(CompPart::kByPrice);
-	gotem1 = priceBST.remove(cp);
+	bool gotem2; 
+	CompPart item = CompPart(cp);
+	item.setSortType(CompPart::kByPrice);
+	gotem1 = priceBST.remove(item);
 
-	cp.setSortType(CompPart::kByPerformanceIndex);
-	gotem2 = performanceBST.remove(cp);
-
+	item = CompPart(cp);
+	item.setSortType(CompPart::kByPerformanceIndex);
+	gotem2 = performanceBST.remove(item);
+	
 	return (gotem1 && gotem2);
 }
 
@@ -59,6 +63,22 @@ SinglyLinkedList<CompPart>& BSTHandler::getListByPerformance(int type) {
 	typePart = type;
 	performanceBST.inOrderTraverse(addToList);
 	return list;
+}
+
+void BSTHandler::displayListByPrice(int type) {
+	getListByPrice(type);
+
+	for (size_t i = 0; i < list.getCount(); i++) {
+		std::cout << list.getDataAt(i) << std::endl;
+	}
+}
+
+void BSTHandler::displayListByPerformance(int type) {
+	getListByPerformance(type);
+
+	for (size_t i = 0; i < list.getCount(); i++) {
+		std::cout << list.getDataAt(i) << std::endl;
+	}
 }
 
 void BSTHandler::displayListByPrice() {

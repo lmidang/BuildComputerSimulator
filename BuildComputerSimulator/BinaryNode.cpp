@@ -74,7 +74,7 @@ int BinaryNode<ItemType>::getNumChildren() {
 }
 
 // ostream operator
-template <typename T>
-std::ostream& operator<<(std::ostream& os, BinaryNode<T>& bN) {
+template <typename ItemType>
+std::ostream& operator<<(std::ostream& os, BinaryNode<ItemType>& bN) {
 	os << bN.getData();
 }
