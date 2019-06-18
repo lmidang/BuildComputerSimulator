@@ -9,7 +9,7 @@ ComputerBuilder::ComputerBuilder()
 
 std::string ComputerBuilder::checkMissing() {
 	std::string missingString = "nothing";
-	for (int i = 0; i < 8; i++) {
+	for (size_t i = 0; i < 8; i++) {
 		if (parts[0] == 0) {
 			missingString = partsString[i];
 			break;
@@ -20,7 +20,7 @@ std::string ComputerBuilder::checkMissing() {
 }
 double ComputerBuilder::getPrice() {
 	double total = 0;
-	for (int i = 0; i < mList.getCount(); i++) {
+	for (size_t i = 0; i < mList.getCount(); i++) {
 		total += mList.getDataAt(i).getPrice();
 	}
 	return total;
@@ -28,7 +28,7 @@ double ComputerBuilder::getPrice() {
 
 int ComputerBuilder::getPower() {
 	int total = 0;
-	for (int i = 0; i < mList.getCount(); i++) {
+	for (size_t i = 0; i < mList.getCount(); i++) {
 		total += mList.getDataAt(i).getPower();
 	}
 	return total;
@@ -39,7 +39,7 @@ bool ComputerBuilder::add(CompPart &cp) {
 	parts[cp.getPartType()]++;
 	return true;
 }
-bool ComputerBuilder::remove(int pos) {
+bool ComputerBuilder::remove(size_t pos) {
 	if (pos >= mList.getCount()) {
 		return false;
 	}
@@ -56,7 +56,7 @@ ComputerBuilder::~ComputerBuilder()
 }
 
 void ComputerBuilder::listParts() {
-	for (int i = 0; i < mList.getCount(); i++) {
+	for (size_t i = 0; i < mList.getCount(); i++) {
 		std::cout << mList.getDataAt(i) << std::endl;
 	}
 }
@@ -64,7 +64,7 @@ void ComputerBuilder::listParts() {
 void ComputerBuilder::saveToFile(std::string fileName) {
 	std::ofstream ofile;
 	ofile.open(fileName);
-	for (int i = 0; i < mList.getCount(); i++) {
+	for (size_t i = 0; i < mList.getCount(); i++) {
 		CompPart cp = mList.getDataAt(i);
 		ofile << cp.getPartType() << "," << cp.getName() << "," << cp.getPrice()
 			<< "," << cp.getManufacturer() << "," << cp.getPower() << "," << cp.getPerformanceIndex()

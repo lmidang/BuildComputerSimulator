@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{3FA593DB-FF77-4130-99EA-CA3711E92AB6}</ProjectGuid>
+    <ProjectGuid>{771CF167-3BE1-4585-B9E8-5CBA8BDC7456}</ProjectGuid>
     <RootNamespace>BuildComputerSimulator</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -122,7 +122,10 @@
     <ClInclude Include="ComputerBuilder.h" />
     <ClInclude Include="entry.h" />
     <ClInclude Include="hashed_dictionary.h" />
+    <ClInclude Include="hashed_dict_handler.h" />
     <ClInclude Include="hashed_entry.h" />
+    <ClInclude Include="input_tools.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="queue.h" />
     <ClInclude Include="singly_linked_list.h" />
@@ -131,7 +134,13 @@
     <ClCompile Include="BSTHandler.cpp" />
     <ClCompile Include="CompPart.cpp" />
     <ClCompile Include="ComputerBuilder.cpp" />
+    <ClCompile Include="hashed_dict_handler.cpp" />
+    <ClCompile Include="input_tools.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,8 @@
 #include "CompPart.h"
 
+const std::string CompPart::partNames[] = { "CPU", "Cooler", "Motherboard", "Memory", "Video Card", "Storage", "Case", "Power Supply" };
+const size_t CompPart::NUM_PARTS = 8;
+
 CompPart::CompPart()
 {
 	mName = "";
@@ -67,35 +70,35 @@ void CompPart::setSortType(int i) {
 	mSortType = i;
 }
 
-std::string CompPart::getName() {
+std::string CompPart::getName() const {
 	return mName;
 }
 
-double CompPart::getPrice() {
+double CompPart::getPrice() const {
 	return mPrice;
 }
 
-std::string CompPart::getManufacturer() {
+std::string CompPart::getManufacturer() const {
 	return mManufacturer;
 }
 
-int CompPart::getPower() {
+int CompPart::getPower() const {
 	return mPower;
 }
 
-int CompPart::getPerformanceIndex() {
+int CompPart::getPerformanceIndex() const {
 	return mPerformanceIndex;
 }
 
-int CompPart::getPartType() {
+int CompPart::getPartType() const {
 	return mPartType;
 }
 
-int CompPart::getSortType() {
+int CompPart::getSortType() const {
 	return mSortType;
 }
 
-std::string CompPart::getCompatibility() {
+std::string CompPart::getCompatibility() const {
 	return mCompatibility;
 }
 
@@ -105,9 +108,10 @@ CompPart& CompPart::operator=(const CompPart &cp) {
 		mPrice = cp.mPrice;
 		mManufacturer = cp.mManufacturer;
 		mPower = cp.mPower;
+		mPerformanceIndex = cp.mPerformanceIndex;
 		mPartType = cp.mPartType;
-		mSortType = cp.mSortType;
 		mCompatibility = cp.mCompatibility;
+		mSortType = cp.mSortType;
 	}
 	return *this;
 }
@@ -151,8 +155,19 @@ bool operator<(const CompPart& cp1, const CompPart& cp2) {
 	}
 }
 
-std::ostream &operator<<(std::ostream &os, const CompPart &cp) { // prob fix this later
-	os << cp.mPartType << " || " << cp.mName << " || " << cp.mManufacturer << " || $" << cp.mPrice << " || " << cp.mPerformanceIndex;
+std::ostream & CompPart::printHeading(std::ostream &os) {
+	os << std::left << std::setw(12) << "Part Type" << " || " << std::setw(19) << "Name" <<  " || " << std::setw(15);
+	os << "Manufacturer" <<  " || " << std::setw(9) << "Price" <<  " || " << "Performance Index" << std::endl;
+	os << "========================================================================================" << std::endl;
+	return os;
+}
+
+std::ostream &operator<<(std::ostream &os, const CompPart &cp) {
+	os << std::left << std::setw(12) << CompPart::partNames[cp.mPartType] << " || ";
+	os << std::setw(19) << cp.mName << " || ";
+	os << std::setw(15) << cp.mManufacturer << " || ";
+	os << '$' << std::right << std::setw(8) << std::setprecision(2) << std::fixed << cp.mPrice << " || ";
+	os << std::setprecision(0) << cp.mPerformanceIndex;
 	return os;
 }
 
@@ -165,7 +180,6 @@ std::istream &operator>>(std::istream &is, CompPart &cp) {
 
 	line = line.substr(line.find(',') + 1);
 	cp.mName = line.substr(0, line.find(','));
-	//std::cout << cp.mName << std::endl;
 	
 	line = line.substr(line.find(',') + 1);
 	cp.mPrice = stod(line.substr(0, line.find(',')));

@@ -3,4 +3,4 @@
 #include <string>
 #include "windows.h"
 
-size_t menu(std::string [], const size_t);
+size_t menu(const std::string [], const size_t);

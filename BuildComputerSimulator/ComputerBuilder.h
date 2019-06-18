@@ -18,7 +18,7 @@ public:
 	int getPower();
 
 	bool add(CompPart&);
-	bool remove(int);
+	bool remove(size_t);
 
 	void listParts();
 	void saveToFile(std::string fileName);

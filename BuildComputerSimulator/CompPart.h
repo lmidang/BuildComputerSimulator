@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <iomanip>
 #include <string>
 
 class CompPart
@@ -16,8 +17,11 @@ protected:
 public:
 	class BadSortTypeException {};
 
-	enum partTypes  { kCPU, kCooler, kMotherBoard, kMemory, kVideoCard, kStorage, kCase, kPowerSupply};
+	enum partTypes { kCPU, kCooler, kMotherBoard, kMemory, kVideoCard, kStorage, kCase, kPowerSupply };
 	enum sortTypes { kByPrice, kByPerformanceIndex };
+
+	const static std::string partNames[];
+	const static size_t NUM_PARTS;
 
 	CompPart();
 	CompPart(std::string, double, std::string, int, int, int, std::string);
@@ -34,14 +38,16 @@ public:
 	void setSortType(int);
 
 	// Accessors
-	std::string getName();
-	double getPrice();
-	std::string getManufacturer();
-	int getPower();
-	int getPerformanceIndex();
-	int getPartType();
-	std::string getCompatibility();
-	int getSortType();
+	std::string getName() const;
+	double getPrice() const;
+	std::string getManufacturer() const;
+	int getPower() const;
+	int getPerformanceIndex() const;
+	int getPartType() const;
+	std::string getCompatibility() const;
+	int getSortType() const;
+
+	static std::ostream & printHeading(std::ostream &);
 
 	// Overloaded Functions
 	CompPart &operator=(const CompPart&);

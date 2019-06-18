@@ -48,6 +48,12 @@ public:
 	// Clear the list, deleting every node
 	void clear();
 
+	// Reverses the order of the list
+	void reverse();
+
+	// Traverses through the list
+	void traverse(void visit(const ItemType &));
+
 	// Overloaded assignment operator
 	SinglyLinkedList<ItemType> & operator =(const SinglyLinkedList<ItemType> &);
 
@@ -264,6 +270,40 @@ void SinglyLinkedList<ItemType>::clear() {
 		deleteAt(0);
 }
 
+/*
+Pseudocode:
+
+- Intialize three pointers: prev and next as null and curr as the head.
+- Iterate through the list using a loop:
+	- Set next to the node that curr is pointing to.
+	- Make curr point to prev.
+	- Move prev and curr one step forward.
+- Set the head to prev.
+*/
+template <typename ItemType>
+void SinglyLinkedList<ItemType>::reverse() {
+	Node<ItemType> *pPrev = nullptr, *pCurr = pHead, *pNext = nullptr;
+
+	while (pCurr != nullptr) {
+		pNext = pCurr->getNext();
+		pCurr->setNext(pPrev);
+		pPrev = pCurr;
+		pCurr = pNext;
+	}
+
+	pHead = pPrev;
+}
+
+template <typename ItemType>
+void SinglyLinkedList<ItemType>::traverse(void visit(const ItemType &)) {
+	Node<ItemType> *pCurr = pHead;
+
+	while (pCurr != nullptr) {
+		visit(pCurr->getData());
+		pCurr = pCurr->getNext();
+	}
+}
+
 template <typename ItemType>
 SinglyLinkedList<ItemType> & SinglyLinkedList<ItemType>::operator =(const SinglyLinkedList<ItemType> &list) {
 	copyFrom(list);
@@ -282,7 +322,7 @@ std::ostream & operator <<(std::ostream &stream, const SinglyLinkedList<ItemType
 	Node<ItemType> *pNode = list.pHead;
 
 	while (pNode != nullptr) {
-		stream << *pNode;
+		stream << *pNode << std::endl;
 		pNode = pNode->getNext();
 	}
 

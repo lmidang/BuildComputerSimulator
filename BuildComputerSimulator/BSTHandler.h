@@ -16,14 +16,15 @@ private:
 public:
 	static SinglyLinkedList<CompPart> list;
 	static int typePart;
+	static double budget;
 	static std::ofstream file;
 
 	BSTHandler();
 	void add(CompPart&);
 	bool remove(CompPart&);
-	
+
 	// for specific parts list
-	SinglyLinkedList<CompPart>& getListByPrice(int type);
+	SinglyLinkedList<CompPart>& getListByPrice(int type, double budget = DBL_MAX);
 	SinglyLinkedList<CompPart>& getListByPerformance(int type);
 	void displayListByPrice(int type);
 	void displayListByPerformance(int type);

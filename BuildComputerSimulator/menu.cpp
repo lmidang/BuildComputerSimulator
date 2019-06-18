@@ -1,7 +1,7 @@
 #include "menu.h"
 
-size_t menu(std::string menuOptions[], const size_t NUM_OPTIONS) {
-	std::cout << "Use the arrows keys to navigate and press ENTER to select a menu option:\n";
+size_t menu(const std::string menuOptions[], const size_t NUM_OPTIONS) {
+	std::cout << "To select a menu option, either input a number, or use the arrows keys to navigate and press ENTER.\n";
 
 	for (size_t i = 0; i < NUM_OPTIONS; i++)
 		std::cout << "   " << i << ") " << menuOptions[i] << std::endl;
