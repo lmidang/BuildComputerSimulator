@@ -56,6 +56,13 @@ size_t menu(const std::string menuOptions[], const size_t NUM_OPTIONS) {
 					SetConsoleCursorPosition(outConsole, cursorPos);
 				}
 				else if (keyCode >= 0x30 && keyCode <= 0x2f + ((NUM_OPTIONS > 10) ? 10 : NUM_OPTIONS)) {
+					std::cout << ' ';
+
+					cursorPos = csbi.dwCursorPosition;
+					cursorPos.Y += keyCode - 0x30;
+					SetConsoleCursorPosition(outConsole, cursorPos);
+					std::cout << '>';
+
 					cursorPos = csbi.dwCursorPosition;
 					cursorPos.X--;
 					cursorPos.Y += static_cast<SHORT>(NUM_OPTIONS);

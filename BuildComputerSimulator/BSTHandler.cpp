@@ -13,19 +13,17 @@ BSTHandler::BSTHandler()
 
 BSTHandler::~BSTHandler() {}
 
-void printPart(CompPart& cp) {	// fix if we want
+void printPart(const CompPart& cp) {
 	std::cout << cp << std::endl;
 }
 
-void addToList(CompPart& cp) {
+void addToList(const CompPart& cp) {
 	if (cp.getPartType() == BSTHandler::typePart && cp.getPrice() <= BSTHandler::budget)
 		BSTHandler::list.insertAt(0, cp);
 }
 
-void writeToFile(CompPart &cp) {
-	BSTHandler::file << cp.getPartType() << "," << cp.getName() << "," << cp.getPrice()
-		<< "," << cp.getManufacturer() << "," << cp.getPower() << "," << cp.getPerformanceIndex()
-		<< "," << cp.getCompatibility() << "," << std::endl;
+void writeToFile(const CompPart &cp) {
+	BSTHandler::file << cp << std::endl;
 }
 
 void BSTHandler::add(CompPart& cp) {
@@ -60,9 +58,10 @@ SinglyLinkedList<CompPart>& BSTHandler::getListByPrice(int type, double budget) 
 	return list;
 }
 
-SinglyLinkedList<CompPart>& BSTHandler::getListByPerformance(int type) {
+SinglyLinkedList<CompPart>& BSTHandler::getListByPerformance(int type, double budget) {
 	list.clear();
 	typePart = type;
+	this->budget = budget;
 	performanceBST.inOrderTraverse(addToList);
 	list.reverse();
 	return list;
@@ -93,7 +92,7 @@ void BSTHandler::displayListByPerformance() {
 }
 
 void BSTHandler::updateFile(std::string s) {
-	file.open(s);
-	priceBST.preorderTraverse(writeToFile);
+	file.open(s, std::ios::app);
+	priceBST.inOrderTraverse(writeToFile);
 	file.close();
 }

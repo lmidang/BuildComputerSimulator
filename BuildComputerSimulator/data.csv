@@ -31,11 +31,11 @@ Part Type,Name,Price,Manufacturer,Power,Performance Index,Compatibility (or othe
 4,RTX 2080Ti,1050,Nvidia,280,100,
 4,Vega 56,279,AMD,220,70,
 4,Vega 64,400,AMD,300,75,
-5,BarraCuda ,85,SeaGate,15,1,HDD,4TB
-5,BarraCuda ,50,SeaGate,15,1,HDD,2TB
+5,BarraCuda,85,SeaGate,15,1,HDD,4TB
+5,BarraCuda Pro,50,SeaGate,15,1,HDD,2TB
 5,WD Blue,42,Western Digital,15,1,HDD,1TB
-5,860 EVO,150,Samsung,10,2,SSD,1TB
-5,860 EVO,80,Samsung,10,2,SSD,500GB
+5,860 EVO 1TB,150,Samsung,10,2,SSD,1TB
+5,860 EVO 500GB,80,Samsung,10,2,SSD,500GB
 5,970 EVO,230,Samsung,10,3,NVME SSD,1TB
 6,H700I,180,NZXT,0,0,mATX,
 6,Node 304,90,Fractal Design,0,0,mini ATX,

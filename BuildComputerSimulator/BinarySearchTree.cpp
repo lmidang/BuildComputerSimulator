@@ -273,7 +273,7 @@ bool BinarySearchTree<ItemType>::contains(const ItemType &anEntry) const {
 	3 preorder(right)
 */
 template <class ItemType>
-void BinarySearchTree<ItemType>::preorder(void visit(ItemType &), BinaryNode<ItemType>* treePtr)
+void BinarySearchTree<ItemType>::preorder(void visit(const ItemType &), BinaryNode<ItemType>* treePtr)
 {
 	if (treePtr != nullptr) {
 		ItemType item = treePtr->getData();
@@ -290,7 +290,7 @@ void BinarySearchTree<ItemType>::preorder(void visit(ItemType &), BinaryNode<Ite
 	3 inOrder(right)
 */
 template <class ItemType>
-void BinarySearchTree<ItemType>::inOrder(void visit(ItemType &), BinaryNode<ItemType>* treePtr)
+void BinarySearchTree<ItemType>::inOrder(void visit(const ItemType &), BinaryNode<ItemType>* treePtr)
 {
 	if (treePtr != nullptr) {
 		inOrder(visit, treePtr->getLeftChildPtr());
@@ -307,7 +307,7 @@ void BinarySearchTree<ItemType>::inOrder(void visit(ItemType &), BinaryNode<Item
 	3 process node
 */
 template <class ItemType>
-void BinarySearchTree<ItemType>::postorder(void visit(ItemType &), BinaryNode<ItemType>* treePtr)
+void BinarySearchTree<ItemType>::postorder(void visit(const ItemType &), BinaryNode<ItemType>* treePtr)
 {
 	if (treePtr != nullptr) {
 		postorder(visit, treePtr->getLeftChildPtr());
@@ -332,7 +332,7 @@ void BinarySearchTree<ItemType>::postorder(void visit(ItemType &), BinaryNode<It
 			1 set currentNode to nullptr
 */
 template <class ItemType>
-void BinarySearchTree<ItemType>::breadthFirst(void visit(ItemType &), BinaryNode<ItemType>* treePtr)
+void BinarySearchTree<ItemType>::breadthFirst(void visit(const ItemType &), BinaryNode<ItemType>* treePtr)
 {
 	if (treePtr != nullptr) {
 		BinaryNode<ItemType> *currentNode = rootPtr;
@@ -360,7 +360,7 @@ void BinarySearchTree<ItemType>::breadthFirst(void visit(ItemType &), BinaryNode
 preorder traverse from rootPtr
 */
 template <class ItemType>
-void BinarySearchTree<ItemType>::preorderTraverse(void visit(ItemType &)) {
+void BinarySearchTree<ItemType>::preorderTraverse(void visit(const ItemType &)) {
 	preorder(visit, rootPtr);
 }
 
@@ -368,7 +368,7 @@ void BinarySearchTree<ItemType>::preorderTraverse(void visit(ItemType &)) {
 inOrder traverse from rootPtr
 */
 template <class ItemType>
-void BinarySearchTree<ItemType>::inOrderTraverse(void visit(ItemType &)) {
+void BinarySearchTree<ItemType>::inOrderTraverse(void visit(const ItemType &)) {
 	inOrder(visit, rootPtr);
 }
 
@@ -376,7 +376,7 @@ void BinarySearchTree<ItemType>::inOrderTraverse(void visit(ItemType &)) {
 postOrder traverse from rootPtr
 */
 template <class ItemType>
-void BinarySearchTree<ItemType>::postorderTraverse(void visit(ItemType &)) {
+void BinarySearchTree<ItemType>::postorderTraverse(void visit(const ItemType &)) {
 	postorder(visit, rootPtr);
 }
 
@@ -384,6 +384,6 @@ void BinarySearchTree<ItemType>::postorderTraverse(void visit(ItemType &)) {
 breadthFirst traverse from rootPtr
 */
 template <class ItemType>
-void BinarySearchTree<ItemType>::breadthFirstTraverse(void visit(ItemType &)) {
+void BinarySearchTree<ItemType>::breadthFirstTraverse(void visit(const ItemType &)) {
 	breadthFirst(visit, rootPtr);
 }

@@ -1,0 +1,5 @@
+Part Type    || Name                || Manufacturer    || Price     || Performance Index
+========================================================================================
+CPU          || Hyper 212 Evo       || Cooler Master   || $   35.00 || 3
+Storage      || 970 EVO             || Samsung         || $  230.00 || 3
+CPU          || Ryzen 1950x         || AMD             || $  500.00 || 95

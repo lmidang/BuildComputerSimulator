@@ -73,6 +73,8 @@ void HashedDictionary<KeyType, ItemType>::clear() {
 			delete pCur;
 			pCur = pNext;
 		}
+
+		hashTable[i] = nullptr;
 	}
 
 	itemCount = 0;

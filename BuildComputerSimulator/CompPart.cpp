@@ -108,10 +108,9 @@ CompPart& CompPart::operator=(const CompPart &cp) {
 		mPrice = cp.mPrice;
 		mManufacturer = cp.mManufacturer;
 		mPower = cp.mPower;
-		mPerformanceIndex = cp.mPerformanceIndex;
 		mPartType = cp.mPartType;
-		mCompatibility = cp.mCompatibility;
 		mSortType = cp.mSortType;
+		mCompatibility = cp.mCompatibility;
 	}
 	return *this;
 }

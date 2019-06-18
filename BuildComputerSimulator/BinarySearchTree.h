@@ -81,7 +81,7 @@ protected:
 	@param visit() function
 	@param subtree root ptr
 	*/
-	void preorder(void visit(ItemType &), BinaryNode<ItemType>*);
+	void preorder(void visit(const ItemType &), BinaryNode<ItemType>*);
 
 	/** inorder traverse recursive
 	@pre tree exists
@@ -89,7 +89,7 @@ protected:
 	@param visit() function
 	@param subtree root ptr
 	*/
-	void inOrder(void visit(ItemType &), BinaryNode<ItemType>*);
+	void inOrder(void visit(const ItemType &), BinaryNode<ItemType>*);
 
 	/** postorder traverse recursive
 	@pre tree exists
@@ -97,7 +97,7 @@ protected:
 	@param visit() function
 	@param subtree root ptr
 	*/
-	void postorder(void visit(ItemType &), BinaryNode<ItemType>*);
+	void postorder(void visit(const ItemType &), BinaryNode<ItemType>*);
 
 	/** breadthFirst traverse
 	@pre tree exists
@@ -105,7 +105,7 @@ protected:
 	@param visit() function
 	@param subtree root ptr
 	*/
-	void breadthFirst(void visit(ItemType &), BinaryNode<ItemType>*);
+	void breadthFirst(void visit(const ItemType &), BinaryNode<ItemType>*);
 
 public:
 	class NotFoundException;
@@ -153,28 +153,28 @@ public:
 	@post tree was traverse from the top
 	@param visit
 	*/
-	void preorderTraverse(void visit(ItemType &));
+	void preorderTraverse(void visit(const ItemType &));
 
 	/** inOrder traverse
 	@pre tree isn't emptry
 	@post tree was traverse from the top
 	@param visit
 	*/
-	void inOrderTraverse(void visit(ItemType &));
+	void inOrderTraverse(void visit(const ItemType &));
 
 	/** postorder traverse
 	@pre tree isn't emptry
 	@post tree was traverse from the top
 	@param visit
 	*/
-	void postorderTraverse(void visit(ItemType &));
+	void postorderTraverse(void visit(const ItemType &));
 
 	/** breadth first traverse
 	@pre tree isn't emptry
 	@post tree was traverse from the top
 	@param visit
 	*/
-	void breadthFirstTraverse(void visit(ItemType &));
+	void breadthFirstTraverse(void visit(const ItemType &));
 };
 
 #include "BinarySearchTree.cpp"
