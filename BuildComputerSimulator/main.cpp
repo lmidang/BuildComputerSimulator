@@ -34,14 +34,16 @@ int main()
 
 	do {
 		size_t userOption = menu(mainOption, 3);
+		cout << endl;
 		
 		switch (userOption) {
 		case 0: {
 			bool isEditingDatDone = false;
 			do {
-				string editingOptions[] = { "Add Data", "Remove Data", "Search by name", "List in hash sequence", "List in key sequence", "List by Price", "List by Performance", "Efficiency", "Exit" };
+				string editingOptions[] = { "Add Data", "Remove Data", "Search by Name", "List in Hash Sequence", "List in Key Sequence", "List by Price", "List by Performance", "Efficiency", "Exit" };
 				cout << endl;
 				size_t editingChoice = menu(editingOptions, 9);
+				cout << endl;
 
 				switch(editingChoice) {
 				case 0: { // add
@@ -52,27 +54,31 @@ int main()
 					CompPart newCompPart;
 					cout << "Select the part type from the menu:" << endl;
 					intInput = menu(CompPart::partNames, CompPart::NUM_PARTS);
+					cout << endl;
 					newCompPart.setPartType(intInput);
 					cout << "Enter a name: ";
 					stringInput = inputString();
 					newCompPart.setName(stringInput);
 					cout << "Enter a price: ";
-					doubleInput = inputNumber();
+					doubleInput = inputNumber(0, DBL_MAX, "$");
 					newCompPart.setPrice(doubleInput);
 					cout << "Enter the manufacturer: ";
 					stringInput = inputString();
 					newCompPart.setManufacturer(stringInput);
 					cout << "Enter the power: ";
-					intInput = int(inputNumber());
+					intInput = int(inputNumber(0, DBL_MAX));
 					newCompPart.setPower(intInput);
 					cout << "Enter the performanceIndex: ";
-					intInput = int(inputNumber());
+					intInput = int(inputNumber(0, DBL_MAX));
 					newCompPart.setPerformanceIndex(intInput);
 					if ((newCompPart.getPartType() == CompPart::kCPU) || (newCompPart.getPartType() == CompPart::kMotherBoard)) {
 						cout << "Enter compatibility: ";
-						stringInput = inputString();
+						stringInput = inputString(true);
 						newCompPart.setCompatibility(stringInput);
 					}
+
+					cout << "Here is the computer part you added:\n";
+					cout << newCompPart << endl;
 
 					bstHandler.add(newCompPart);
 					HashedDataHandler::add(newCompPart);
@@ -108,23 +114,26 @@ int main()
 					break;
 				}
 				case 3: { // list hashed sequence
+					CompPart::printHeading(cout);
 					HashedDataHandler::getDict().traverse(printItem);
 					break;
 				}
-				case 4: { // list key sequence (FIX THIS LATER)
-					cout << "Enter an index\n";
-					int inputNum = int(inputNumber());
+				case 4: { // list key sequence
+					cout << "Enter an index:\n";
+					size_t inputNum = static_cast<size_t>(inputNumber(0, HashedDataHandler::getDict().getSize() - 1));
+					CompPart::printHeading(cout);
 					try {
 						HashedDataHandler::getDict().traverseIndex(printItem, inputNum);
 					}
 					catch (HashedDictionary<string, CompPart>::OutOfRangeException) {
-						cout << "Index is out of range\n";
+						cerr << "Index is out of range!\n";
 					}
 					break;
 				}
 				case 5: { // list price
 					string displayType[] = { "By Price", "Indented" };
 					size_t displayChoice = menu(displayType, 2);
+					cout << endl;
 
 					switch (displayChoice) {
 					case 0:
@@ -140,8 +149,9 @@ int main()
 					break;
 				}
 				case 6: { // list performance
-					string displayType[] = { "By Price", "Indented" };
+					string displayType[] = { "By Performance", "Indented" };
 					size_t displayChoice = menu(displayType, 2);
+					cout << endl;
 
 					switch (displayChoice) {
 					case 0:
@@ -156,9 +166,10 @@ int main()
 					}
 					break;
 				}
-				case 7: { // efficiency DO THIS LATER
+				case 7: { // efficiency
 					string displayEfficiency[] ={ "Load factor", "Longest linked list", "Average nodes per list" };
 					int userChoice = menu(displayEfficiency, 3);
+					cout << endl;
 
 					switch (userChoice) {
 					case 0:
@@ -167,7 +178,7 @@ int main()
 						cout << "Load factor Hashed Table: " << HashedDataHandler::getLoadFactor() << endl;
 						break;
 					case 1:
-						cout << "Longest list: " << HashedDataHandler::getLoadFactor() << endl;
+						cout << "Longest list: " << HashedDataHandler::getLongestList() << endl;
 						break;
 					case 2:
 						cout << "Average nodes: " << HashedDataHandler::getAverageNodes() << endl;

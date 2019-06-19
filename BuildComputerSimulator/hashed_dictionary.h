@@ -34,7 +34,7 @@ public:
 	ItemType getItem(const KeyType &);
 	bool contains(const KeyType &);
 	void traverse(void visit(const ItemType &));
-	void traverseIndex(void visit(const ItemType &), int);
+	void traverseIndex(void visit(const ItemType &), size_t);
 };
 
 template <typename KeyType, typename ItemType>
@@ -268,7 +268,7 @@ void HashedDictionary<KeyType, ItemType>::traverse(void visit(const ItemType &))
 
 
 template <typename KeyType, typename ItemType>
-void HashedDictionary<KeyType, ItemType>::traverseIndex(void visit(const ItemType &), int i) {
+void HashedDictionary<KeyType, ItemType>::traverseIndex(void visit(const ItemType &), size_t i) {
 	if (i >= hashTableSize) {
 		throw HashedDictionary<KeyType, ItemType>::OutOfRangeException();
 	}

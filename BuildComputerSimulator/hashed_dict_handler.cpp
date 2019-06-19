@@ -1,6 +1,6 @@
 #include "hashed_dict_handler.h"
 
-HashedDictionary<std::string, CompPart> HashedDictHandler::dict = HashedDictionary<std::string, CompPart>();
+HashedDictionary<std::string, CompPart> HashedDictHandler::dict = HashedDictionary<std::string, CompPart>(31);
 
 HashedDictionary<std::string, CompPart> & HashedDictHandler::getDict() {
 	return dict;

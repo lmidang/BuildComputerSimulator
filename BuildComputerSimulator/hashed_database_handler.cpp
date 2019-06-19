@@ -1,6 +1,6 @@
 #include "hashed_database_handler.h"
 
-HashedDictionary<std::string, CompPart> HashedDataHandler::dict = HashedDictionary<std::string, CompPart>();
+HashedDictionary<std::string, CompPart> HashedDataHandler::dict = HashedDictionary<std::string, CompPart>(31);
 int HashedDataHandler::loadFactor = 0;
 int HashedDataHandler::sumOfIndex = 0;
 int HashedDataHandler::largest = 0;

@@ -99,10 +99,12 @@ void BSTHandler::displayListByPerformance(int type) {
 }
 
 void BSTHandler::displayListByPrice() {
+	CompPart::printHeading(std::cout);
 	priceBST.inOrderTraverse(printPart);
 }
 
 void BSTHandler::displayListByPerformance() {
+	CompPart::printHeading(std::cout);
 	performanceBST.inOrderTraverse(printPart);
 }
 
