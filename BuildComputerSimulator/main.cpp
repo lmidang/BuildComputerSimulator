@@ -19,7 +19,6 @@ int main()
 {
 	const string DEFAULT_FILE_NAME = "data.csv";
 	BSTHandler bstHandler;
-	BinarySearchTree<CompPart> shoppingCart;
 	readFromFile(bstHandler);
 
 	bool isCompletelyDone = false;
@@ -41,6 +40,7 @@ int main()
 			bool isEditingDatDone = false;
 			do {
 				string editingOptions[] = { "Add Data", "Remove Data", "Search by name", "List in hash sequence", "List in key sequence", "List by Price", "List by Performance", "Efficiency", "Exit" };
+				cout << endl;
 				size_t editingChoice = menu(editingOptions, 9);
 
 				switch(editingChoice) {
@@ -112,7 +112,14 @@ int main()
 					break;
 				}
 				case 4: { // list key sequence (FIX THIS LATER)
-					HashedDataHandler::getDict().traverse(printItem);
+					cout << "Enter an index\n";
+					int inputNum = int(inputNumber());
+					try {
+						HashedDataHandler::getDict().traverseIndex(printItem, inputNum);
+					}
+					catch (HashedDictionary<string, CompPart>::OutOfRangeException) {
+						cout << "Index is out of range\n";
+					}
 					break;
 				}
 				case 5: { // list price
@@ -150,7 +157,24 @@ int main()
 					break;
 				}
 				case 7: { // efficiency DO THIS LATER
-					cout << "efficiency :P\n";
+					string displayEfficiency[] ={ "Load factor", "Longest linked list", "Average nodes per list" };
+					int userChoice = menu(displayEfficiency, 3);
+
+					switch (userChoice) {
+					case 0:
+						cout << "Load factor PriceBST: " << bstHandler.getPriceLoadFactor() << endl;
+						cout << "Load factor PerformanceBST: " << bstHandler.getPerformanceLoadFactor() << endl;
+						cout << "Load factor Hashed Table: " << HashedDataHandler::getLoadFactor() << endl;
+						break;
+					case 1:
+						cout << "Longest list: " << HashedDataHandler::getLoadFactor() << endl;
+						break;
+					case 2:
+						cout << "Average nodes: " << HashedDataHandler::getAverageNodes() << endl;
+						break;
+					default:
+						cout << "Invalid input\n";
+					}
 					break;
 				}
 				case 8: { // exit
@@ -164,7 +188,9 @@ int main()
 					}
 					if (fileName == "")
 						fileName = DEFAULT_FILE_NAME;
-					bstHandler.updateFile(fileName);
+					HashedDataHandler::writeHashToFile(fileName);
+
+					break;
 				}
 				default:
 					cout << "Invalid input.\n\n";
@@ -173,6 +199,7 @@ int main()
 			break;
 		}
 		case 1: {	// build computer option here
+			BinarySearchTree<CompPart> shoppingCart;
 			double budget;
 			changeBudget(budget);
 
@@ -259,6 +286,9 @@ void readFromFile(BSTHandler &bstHandler) {
 		}
 	}
 	inFile.close();
+
+	HashedDataHandler::calculateLoadFactor();
+	bstHandler.calculateFactor();
 }
 
 void printItem(CompPart const &cp) {

@@ -13,7 +13,11 @@ private:
 	size_t getHashIndex(const std::string &) const;
 	static bool isPrime(size_t);
 
+	int loadFactor;
+
 public:
+	class OutOfRangeException {};
+
 	HashedDictionary();
 	HashedDictionary(size_t);
 	~HashedDictionary();
@@ -21,6 +25,8 @@ public:
 	void clear();
 	bool isEmpty() const;
 	size_t getNumberOfItems() const;
+	size_t getSize();
+	int getLoadFactor();
 
 	bool add(const KeyType &, const ItemType &);
 	bool remove(const KeyType &);
@@ -28,10 +34,11 @@ public:
 	ItemType getItem(const KeyType &);
 	bool contains(const KeyType &);
 	void traverse(void visit(const ItemType &));
+	void traverseIndex(void visit(const ItemType &), int);
 };
 
 template <typename KeyType, typename ItemType>
-const size_t HashedDictionary<KeyType, ItemType>::DEFAULT_SIZE = 101;
+const size_t HashedDictionary<KeyType, ItemType>::DEFAULT_SIZE = 53;
 
 template <typename KeyType, typename ItemType>
 HashedDictionary<KeyType, ItemType>::HashedDictionary() :
@@ -91,6 +98,17 @@ size_t HashedDictionary<KeyType, ItemType>::getNumberOfItems() const {
 }
 
 template <typename KeyType, typename ItemType>
+size_t HashedDictionary<KeyType, ItemType>::getSize() {
+	return hashTableSize;
+}
+
+template <typename KeyType, typename ItemType>
+int HashedDictionary<KeyType, ItemType>::getLoadFactor() {
+	return loadFactor;
+}
+
+
+template <typename KeyType, typename ItemType>
 size_t HashedDictionary<KeyType, ItemType>::getHashIndex(const unsigned int &searchKey) const {
 	searchKey = ((searchKey >> 16) ^ searchKey) * 0x45d9f3b;
 	searchKey = ((searchKey >> 16) ^ searchKey) * 0x45d9f3b;
@@ -124,12 +142,18 @@ bool HashedDictionary<KeyType, ItemType>::add(const KeyType &searchKey, const It
 	HashedEntry<KeyType, ItemType> *pEntryToAdd = new HashedEntry<KeyType, ItemType>(searchKey, newItem);
 
 	size_t itemHashIndex = getHashIndex(searchKey);
+	loadFactor++;
 
-	if (hashTable[itemHashIndex] == nullptr)
+	if (hashTable[itemHashIndex] == nullptr) {
 		hashTable[itemHashIndex] = pEntryToAdd;
+		loadFactor++;
+	}
 	else {
 		pEntryToAdd->setNext(hashTable[itemHashIndex]);
+		loadFactor++;
+
 		hashTable[itemHashIndex] = pEntryToAdd;
+		loadFactor++;
 	}
 
 	itemCount++;
@@ -239,5 +263,19 @@ void HashedDictionary<KeyType, ItemType>::traverse(void visit(const ItemType &))
 			visit(pCurr->getItem());
 			pCurr = pCurr->getNext();
 		}
+	}
+}
+
+
+template <typename KeyType, typename ItemType>
+void HashedDictionary<KeyType, ItemType>::traverseIndex(void visit(const ItemType &), int i) {
+	if (i >= hashTableSize) {
+		throw HashedDictionary<KeyType, ItemType>::OutOfRangeException();
+	}
+	HashedEntry<KeyType, ItemType> *pCurr = hashTable[i];
+
+	while (pCurr != nullptr) {
+		visit(pCurr->getItem());
+		pCurr = pCurr->getNext();
 	}
 }

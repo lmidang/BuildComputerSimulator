@@ -55,11 +55,17 @@ BinaryNode<ItemType>* BinarySearchTree<ItemType>::insertInOrder(BinaryNode<ItemT
 	else if (subTreePtr->getData() > newNodePtr->getData())
 	{
 		BinaryNode<ItemType>* tempPtr = insertInOrder(subTreePtr->getLeftChildPtr(), newNodePtr);
+		loadFactor++;
+
 		subTreePtr->setLeftChildPtr(tempPtr);
+		loadFactor++;
 	}
 	else {
 		BinaryNode<ItemType>* tempPtr = insertInOrder(subTreePtr->getRightChildPtr(), newNodePtr);
+		loadFactor++;
+
 		subTreePtr->setRightChildPtr(tempPtr);
+		loadFactor++;
 	}
 	return subTreePtr;
 }
@@ -70,8 +76,10 @@ adds newNodePtr from newData to root tree using insertInOrder
 template <class ItemType>
 bool BinarySearchTree<ItemType>::add(const ItemType& newData) {
 	BinaryNode<ItemType>* newNodePtr = new BinaryNode<ItemType>(newData);
-	rootPtr = insertInOrder(rootPtr, newNodePtr);
+	loadFactor++;
 
+	rootPtr = insertInOrder(rootPtr, newNodePtr);
+	loadFactor++;
 	return true;
 }
 
@@ -258,6 +266,11 @@ ItemType& BinarySearchTree<ItemType>::getRoot() {
 	return rootPtr->getData();
 }
 
+template <class ItemType>
+int BinarySearchTree<ItemType>::getLoadFactor() {
+	return loadFactor;
+}
+
 /** contains
 returns whether node of item exists
 */
@@ -389,22 +402,22 @@ void BinarySearchTree<ItemType>::breadthFirstTraverse(void visit(const ItemType 
 }
 
 template <class ItemType>
-void BinarySearchTree<ItemType>::printIndented(BinaryNode<ItemType>* pNode, int space) {
+void BinarySearchTree<ItemType>::printIndented(void visit(const ItemType &), BinaryNode<ItemType>* pNode, int space) {
 	if (pNode == nullptr) {
 		return;
 	}
 
 	space += 3;
-	printIndented(pNode->getLeftChildPtr(), space);
+	printIndented(visit, pNode->getLeftChildPtr(), space);
 	for (int i = 3; i < space; i++) {
 		std::cout << " ";
 	}
-	std::cout << pNode->getData() << "\n";
-	printIndented(pNode->getRightChildPtr(), space);
+	visit(pNode->getData());
+	printIndented(visit, pNode->getRightChildPtr(), space);
 }
 
 
 template <class ItemType>
-void BinarySearchTree<ItemType>::printIndentedAll() {
-	printIndented(rootPtr, 0);
+void BinarySearchTree<ItemType>::printIndentedAll(void visit(const ItemType &)) {
+	printIndented(visit, rootPtr, 0);
 }

@@ -23,7 +23,8 @@ void addToList(const CompPart& cp) {
 }
 
 void writeToFile(const CompPart &cp) {
-	BSTHandler::file << cp << std::endl;
+	BSTHandler::file << cp.getPartType() << "," << cp.getName() << "," << cp.getPrice() << "," << cp.getManufacturer()
+		<< "," << cp.getPower()<< "," << cp.getPerformanceIndex() << "," << cp.getCompatibility() << "," << std::endl;
 }
 
 void BSTHandler::add(CompPart& cp) {
@@ -47,6 +48,20 @@ bool BSTHandler::remove(CompPart& cp) {
 	gotem2 = performanceBST.remove(item);
 
 	return (gotem1 && gotem2);
+}
+
+
+void BSTHandler::calculateFactor() {
+	priceLoadFactor = priceBST.getLoadFactor();
+	performanceLoadFactor = performanceBST.getLoadFactor();
+}
+
+int BSTHandler::getPriceLoadFactor() {
+	return priceLoadFactor;
+}
+
+int BSTHandler::getPerformanceLoadFactor() {
+	return performanceLoadFactor;
 }
 
 SinglyLinkedList<CompPart>& BSTHandler::getListByPrice(int type, double budget) {
@@ -93,11 +108,11 @@ void BSTHandler::displayListByPerformance() {
 
 
 void BSTHandler::displayListByPriceIndented() {
-	priceBST.printIndentedAll();
+	priceBST.printIndentedAll(printPart);
 }
 
 void BSTHandler::displayListByPerformanceIndented() {
-	performanceBST.printIndentedAll();
+	performanceBST.printIndentedAll(printPart);
 }
 
 void BSTHandler::updateFile(std::string s) {

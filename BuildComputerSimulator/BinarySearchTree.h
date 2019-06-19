@@ -15,6 +15,7 @@ class BinarySearchTree
 {
 protected:
 	BinaryNode<ItemType>* rootPtr;
+	int loadFactor = 0;
 
 	/** Returns height
 	@pre tree is not empty
@@ -107,7 +108,7 @@ protected:
 	*/
 	void breadthFirst(void visit(const ItemType &), BinaryNode<ItemType>*);
 
-	void printIndented(BinaryNode<ItemType>*, int);
+	void printIndented(void visit(const ItemType &), BinaryNode<ItemType>*, int);
 public:
 	class NotFoundException;
 
@@ -121,6 +122,7 @@ public:
 	int getHeight() const;
 	int getNumberOfNodes() const;
 	ItemType& getRoot();
+	int getLoadFactor();
 	
 	/** adds to the tree
 	@pre none
@@ -177,7 +179,7 @@ public:
 	*/
 	void breadthFirstTraverse(void visit(const ItemType &));
 
-	void printIndentedAll();
+	void printIndentedAll(void visit(const ItemType &));
 };
 
 #include "BinarySearchTree.cpp"

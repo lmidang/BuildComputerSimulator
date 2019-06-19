@@ -13,6 +13,9 @@ private:
 	BinarySearchTree<CompPart> priceBST;
 	BinarySearchTree<CompPart> performanceBST;
 
+	int priceLoadFactor;
+	int performanceLoadFactor;
+
 public:
 	static SinglyLinkedList<CompPart> list;
 	static int typePart;
@@ -22,6 +25,10 @@ public:
 	BSTHandler();
 	void add(CompPart&);
 	bool remove(CompPart&);
+
+	void calculateFactor();
+	int getPriceLoadFactor();
+	int getPerformanceLoadFactor();
 
 	// for specific parts list
 	SinglyLinkedList<CompPart>& getListByPrice(int type, double budget = DBL_MAX);
