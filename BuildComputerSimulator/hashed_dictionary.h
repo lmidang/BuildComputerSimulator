@@ -326,19 +326,6 @@ void HashedDictionary<KeyType, ItemType>::traverse(void visit(const ItemType &))
 }
 
 template <typename KeyType, typename ItemType>
-void HashedDictionary<KeyType, ItemType>::traverseMod(void visit(ItemType &)) {
-	for (size_t i = 0; i < hashTableSize; i++) {
-		HashedEntry<KeyType, ItemType> *pCurr = hashTable[i];
-
-		while (pCurr != nullptr) {
-			visit(pCurr->getItem());
-			pCurr = pCurr->getNext();
-		}
-	}
-}
-
-
-template <typename KeyType, typename ItemType>
 void HashedDictionary<KeyType, ItemType>::traverseIndex(void visit(const ItemType &), size_t i) {
 	// Make sure the index is within range
 	if (i >= hashTableSize) {

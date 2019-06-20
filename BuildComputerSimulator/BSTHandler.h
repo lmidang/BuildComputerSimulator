@@ -8,6 +8,7 @@ Worked on by Lynn Dang
 
 // IO helper functions
 void printPart(const CompPartWrapper&);
+void printParIndented(const CompPartWrapper&);
 void addToList(const CompPartWrapper&);
 void writeToFile(const CompPartWrapper&);
 

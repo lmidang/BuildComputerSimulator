@@ -42,6 +42,10 @@ void writeToFile(const CompPartWrapper &cp) {
 		<< "," << cp.get().getPower()<< "," << cp.get().getPerformanceIndex() << "," << cp.get().getCompatibility() << "," << std::endl;
 }
 
+void printPartIndented(const CompPartWrapper &cp) {
+	std::cout << cp.get().getName() << " || " << cp.get().getPrice() << " || " << cp.get().getPerformanceIndex() << std::endl;
+}
+
 void BSTHandler::add(CompPartWrapper& cp) {
 	priceBST->add(cp, cp.get().getPrice());
 	performanceBST->add(cp, cp.get().getPerformanceIndex());
