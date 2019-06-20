@@ -7,11 +7,22 @@ std::ofstream BSTHandler::file = std::ofstream();
 
 BSTHandler::BSTHandler()
 {
-	priceBST = BinarySearchTree<CompPart>();
-	performanceBST = BinarySearchTree<CompPart>();
+	priceBST = new BinarySearchTree<CompPart, double>();
+	performanceBST = new BinarySearchTree<CompPart, int>();
+//	priceBST = BinarySearchTree<CompPart, double>();
+//	performanceBST = BinarySearchTree<CompPart, int>();
 }
 
-BSTHandler::~BSTHandler() {}
+BSTHandler::~BSTHandler() {
+	if (priceBST != nullptr) {
+		delete priceBST;
+		priceBST = nullptr;
+	}
+	if (performanceBST != nullptr) {
+		delete performanceBST;
+		performanceBST = nullptr;
+	}
+}
 
 void printPart(const CompPart& cp) {
 	std::cout << cp << std::endl;
@@ -28,32 +39,23 @@ void writeToFile(const CompPart &cp) {
 }
 
 void BSTHandler::add(CompPart& cp) {
-	cp.setSortType(CompPart::kByPrice);
-	priceBST.add(cp);
-
-	CompPart item = CompPart(cp);
-	item.setSortType(CompPart::kByPerformanceIndex);
-	performanceBST.add(item);
+	priceBST->add(cp, cp.getPrice());
+	performanceBST->add(cp, cp.getPerformanceIndex());
 }
 
 bool BSTHandler::remove(CompPart& cp) {
 	bool gotem1;
 	bool gotem2;
-	CompPart item = CompPart(cp);
-	item.setSortType(CompPart::kByPrice);
-	gotem1 = priceBST.remove(item);
-
-	item = CompPart(cp);
-	item.setSortType(CompPart::kByPerformanceIndex);
-	gotem2 = performanceBST.remove(item);
+	gotem1 = priceBST->remove(cp, cp.getPrice());
+	gotem2 = performanceBST->remove(cp, cp.getPerformanceIndex());
 
 	return (gotem1 && gotem2);
 }
 
 
 void BSTHandler::calculateFactor() {
-	priceLoadFactor = priceBST.getLoadFactor();
-	performanceLoadFactor = performanceBST.getLoadFactor();
+	priceLoadFactor = priceBST->getLoadFactor();
+	performanceLoadFactor = performanceBST->getLoadFactor();
 }
 
 int BSTHandler::getPriceLoadFactor() {
@@ -68,7 +70,7 @@ SinglyLinkedList<CompPart>& BSTHandler::getListByPrice(int type, double budget) 
 	list.clear();
 	typePart = type;
 	this->budget = budget;
-	priceBST.inOrderTraverse(addToList);
+	priceBST->inOrderTraverse(addToList);
 	list.reverse();
 	return list;
 }
@@ -77,7 +79,7 @@ SinglyLinkedList<CompPart>& BSTHandler::getListByPerformance(int type, double bu
 	list.clear();
 	typePart = type;
 	this->budget = budget;
-	performanceBST.inOrderTraverse(addToList);
+	performanceBST->inOrderTraverse(addToList);
 	list.reverse();
 	return list;
 }
@@ -100,27 +102,27 @@ void BSTHandler::displayListByPerformance(int type) {
 
 void BSTHandler::displayListByPrice() {
 	CompPart::printHeading(std::cout);
-	priceBST.inOrderTraverse(printPart);
+	priceBST->inOrderTraverse(printPart);
 }
 
 void BSTHandler::displayListByPerformance() {
 	CompPart::printHeading(std::cout);
-	performanceBST.inOrderTraverse(printPart);
+	performanceBST->inOrderTraverse(printPart);
 }
 
 
 void BSTHandler::displayListByPriceIndented() {
-	priceBST.printIndentedAll(printPart);
+	priceBST->printIndentedAll(printPart);
 }
 
 void BSTHandler::displayListByPerformanceIndented() {
-	performanceBST.printIndentedAll(printPart);
+	performanceBST->printIndentedAll(printPart);
 }
 
 void BSTHandler::updateFile(std::string s) {
 	file.open(s);
 	file.open(s, std::ios::app);
 	file <<"Part Type, Name, Price, Manufacturer, Power, Performance Index, Compatibility(or other)," << std::endl;
-	priceBST.preorderTraverse(writeToFile);
+	priceBST->preorderTraverse(writeToFile);
 	file.close();
 }

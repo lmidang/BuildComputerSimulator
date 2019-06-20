@@ -9,18 +9,18 @@ using namespace std;
 
 void readFromFile(BSTHandler &);
 void printItem(CompPart const &);
-void addPartToCart(BSTHandler &, BinarySearchTree<CompPart> &, double &);
-void removePartFromCart(BinarySearchTree<CompPart> &, double &);
+void addPartToCart(BSTHandler &, BinarySearchTree<CompPart, string> &, double &);
+void removePartFromCart(BinarySearchTree<CompPart, string> &, double &);
 void changeBudget(double &);
-void viewCart(BinarySearchTree<CompPart> &);
-void saveCart(BinarySearchTree<CompPart> &);
+void viewCart(BinarySearchTree<CompPart, string> &);
+void saveCart(BinarySearchTree<CompPart, string> &);
 
 int main()
 {
 	// Create file name, bst handler, and read from file
 	const string DEFAULT_FILE_NAME = "data.csv";
-	BSTHandler bstHandler;
-	readFromFile(bstHandler);
+	BSTHandler *bstHandler = new BSTHandler();
+	readFromFile(*bstHandler);
 	// Completely done when true 
 	bool isCompletelyDone = false;
 
@@ -85,7 +85,7 @@ int main()
 					cout << "Here is the computer part you added:\n";
 					cout << newCompPart << endl;
 
-					bstHandler.add(newCompPart);
+					bstHandler->add(newCompPart);
 					HashedDataHandler::add(newCompPart);
 					break;
 				}
@@ -95,8 +95,7 @@ int main()
 					userInput = inputString();
 					try {
 						CompPart toDelete = HashedDataHandler::getDict().getItem(HashedDataHandler::normalize(userInput));
-						toDelete.setSortType(CompPart::kByPrice);
-						bstHandler.remove(toDelete);
+						bstHandler->remove(toDelete);
 						HashedDataHandler::getDict().remove(userInput);
 						cout << "Item removed.\n\n";
 					} catch (...) {
@@ -142,10 +141,10 @@ int main()
 
 					switch (displayChoice) {
 					case 0:
-						bstHandler.displayListByPrice();
+						bstHandler->displayListByPrice();
 						break;
 					case 1:
-						bstHandler.displayListByPriceIndented();
+						bstHandler->displayListByPriceIndented();
 						break;
 					default:
 						cout << "invalid input\n" << endl;
@@ -160,10 +159,10 @@ int main()
 
 					switch (displayChoice) {
 					case 0:
-						bstHandler.displayListByPerformance();
+						bstHandler->displayListByPerformance();
 						break;
 					case 1:
-						bstHandler.displayListByPerformanceIndented();
+						bstHandler->displayListByPerformanceIndented();
 						break;
 					default:
 						cout << "invalid input\n" << endl;
@@ -178,8 +177,8 @@ int main()
 
 					switch (userChoice) {
 					case 0:
-						cout << "Load factor PriceBST: " << bstHandler.getPriceLoadFactor() << endl;
-						cout << "Load factor PerformanceBST: " << bstHandler.getPerformanceLoadFactor() << endl;
+						cout << "Load factor PriceBST: " << bstHandler->getPriceLoadFactor() << endl;
+						cout << "Load factor PerformanceBST: " << bstHandler->getPerformanceLoadFactor() << endl;
 						cout << "Load factor Hashed Table: " << HashedDataHandler::getLoadFactor() << endl;
 						break;
 					case 1:
@@ -215,7 +214,7 @@ int main()
 			break;
 		}
 		case 1: {	// build computer option here
-			BinarySearchTree<CompPart> shoppingCart;
+			BinarySearchTree<CompPart, string> *shoppingCart = new BinarySearchTree<CompPart, string>();
 			double budget;
 			changeBudget(budget);
 
@@ -227,19 +226,21 @@ int main()
 
 				switch (menuChoice) {
 				case 0:
-					addPartToCart(bstHandler, shoppingCart, budget);
+					addPartToCart(*bstHandler, *shoppingCart, budget);
 					break;
 				case 1:
-					removePartFromCart(shoppingCart, budget);
+					removePartFromCart(*shoppingCart, budget);
 					break;
 				case 2:
-					viewCart(shoppingCart);
+					viewCart(*shoppingCart);
 					break;
 				case 3:
 					changeBudget(budget);
 					break;
 				case 4:
-					saveCart(shoppingCart);
+					saveCart(*shoppingCart);
+					delete shoppingCart;
+					shoppingCart = nullptr;
 					exit = true;
 					break;
 				}
@@ -258,6 +259,9 @@ int main()
 		}
 
 	} while (!isCompletelyDone);
+
+	delete bstHandler;
+	bstHandler = nullptr;
 	system("pause");
 	return 0;
 }
@@ -330,7 +334,7 @@ Use switch for sort choice
 Return output according to user's budget (ex: too low)
 Output user's purchase after getItem
 */
-void addPartToCart(BSTHandler &bstHandler, BinarySearchTree<CompPart> &shoppingCart, double &budget) {
+void addPartToCart(BSTHandler &bstHandler, BinarySearchTree<CompPart, string> &shoppingCart, double &budget) {
 	cout << "Please select what type of computer part you would like to purchase:\n";
 	CompPart::partTypes partType = static_cast<CompPart::partTypes>(menu(CompPart::partNames, CompPart::NUM_PARTS));
 	cout << endl;
@@ -370,12 +374,11 @@ void addPartToCart(BSTHandler &bstHandler, BinarySearchTree<CompPart> &shoppingC
 		try {
 			if (input != "") {
 				CompPart part = HashedDictHandler::getDict().getItem(HashedDictHandler::normalize(input));
-				part.setSortType(CompPart::kByPrice);
 
 				cout << "You just bought:\n";
 				cout << part << "\n\n";
 
-				shoppingCart.add(part);
+				shoppingCart.add(part, part.getName());
 				budget -= part.getPrice();
 			}
 
@@ -395,7 +398,7 @@ Ask user to enter name of part they would like to remove
 If input is not empty then show user which part removed from list
 Remove from shopping cart and adjust running total 
 */
-void removePartFromCart(BinarySearchTree<CompPart> &shoppingCart, double &budget) {
+void removePartFromCart(BinarySearchTree<CompPart, string> &shoppingCart, double &budget) {
 	cout << "Your current shopping cart contains:\n";
 	CompPart::printHeading(cout);
 	shoppingCart.inOrderTraverse(printPart);
@@ -416,7 +419,7 @@ void removePartFromCart(BinarySearchTree<CompPart> &shoppingCart, double &budget
 				cout << "You just removed:\n";
 				cout << part << "\n\n";
 
-				shoppingCart.remove(part);
+				shoppingCart.remove(part, part.getName());
 				budget += part.getPrice();
 			}
 
@@ -435,7 +438,7 @@ BinarySearchTree<CompPart> &shoppingCart
 cout shopping cart:
 print shoppingCart in order traverse
 */
-void viewCart(BinarySearchTree<CompPart> &shoppingCart) {
+void viewCart(BinarySearchTree<CompPart, string> &shoppingCart) {
 	cout << "Your current shopping cart contains:\n";
 	CompPart::printHeading(cout);
 	shoppingCart.inOrderTraverse(printPart);
@@ -462,7 +465,7 @@ file name, shopping cart, string fileName
 Ask user to enter the name of file save location
 BST: open file, close, open app, print heading bst file, write shopping cart in order traverse to file, close file
 */
-void saveCart(BinarySearchTree<CompPart> &shoppingCart) {
+void saveCart(BinarySearchTree<CompPart, string> &shoppingCart) {
 	static const string DEFAULT_FILE_NAME = "shopping_cart.txt";
 	string fileName;
 

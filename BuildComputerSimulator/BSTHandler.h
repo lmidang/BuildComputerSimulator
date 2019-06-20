@@ -10,8 +10,8 @@ void writeToFile(const CompPart&);
 class BSTHandler
 {
 private:
-	BinarySearchTree<CompPart> priceBST;
-	BinarySearchTree<CompPart> performanceBST;
+	BinarySearchTree<CompPart, double> *priceBST;
+	BinarySearchTree<CompPart, int> *performanceBST;
 
 	int priceLoadFactor;
 	int performanceLoadFactor;
@@ -21,8 +21,9 @@ public:
 	static int typePart;
 	static double budget;
 	static std::ofstream file;
-
+	
 	BSTHandler();
+	~BSTHandler();
 	void add(CompPart&);
 	bool remove(CompPart&);
 
@@ -41,6 +42,5 @@ public:
 	void displayListByPrice();
 	void displayListByPerformance();
 	void updateFile(std::string s);
-	~BSTHandler();
 };
 

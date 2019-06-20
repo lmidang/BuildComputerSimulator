@@ -13,13 +13,11 @@ protected:
 	int mPerformanceIndex;
 	int mPartType;
 	std::string mCompatibility;
-	int mSortType;	// default kByPrice
 public:
 	class BadSortTypeException {};
 	class ExtraSpaceException {};
 
 	enum partTypes { kCPU, kCooler, kMotherBoard, kMemory, kVideoCard, kStorage, kCase, kPowerSupply };
-	enum sortTypes { kByPrice, kByPerformanceIndex };
 
 	const static std::string partNames[];
 	const static size_t NUM_PARTS;
@@ -36,7 +34,6 @@ public:
 	void setPower(int);
 	void setPerformanceIndex(int);
 	void setCompatibility(std::string);
-	void setSortType(int);
 	void setPartType(int);
 
 	// Accessors
@@ -47,15 +44,12 @@ public:
 	int getPerformanceIndex() const;
 	int getPartType() const;
 	std::string getCompatibility() const;
-	int getSortType() const;
 
 	static std::ostream & printHeading(std::ostream &);
 
 	// Overloaded Functions
 	CompPart &operator=(const CompPart&);
 	friend bool operator== (const CompPart&, const CompPart&);
-	friend bool operator>(const CompPart&, const CompPart&);
-	friend bool operator<(const CompPart&, const CompPart&);
 	friend std::ostream &operator<<(std::ostream&, const CompPart&);
 	friend std::istream &operator>>(std::istream&, CompPart&);
 };

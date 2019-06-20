@@ -12,7 +12,6 @@ CompPart::CompPart()
 	mPerformanceIndex = -1;
 	mPartType = -1;
 	mCompatibility = "";
-	mSortType = kByPrice;
 }
 
 CompPart::CompPart(std::string name, double price, std::string manufacturer, int power,
@@ -24,7 +23,6 @@ CompPart::CompPart(std::string name, double price, std::string manufacturer, int
 	mPerformanceIndex = performance;
 	mPartType = partType;
 	mCompatibility = compatibility;
-	mSortType = kByPrice;
 }
 
 CompPart::CompPart(const CompPart& cp) {
@@ -35,7 +33,6 @@ CompPart::CompPart(const CompPart& cp) {
 	mPerformanceIndex = cp.mPerformanceIndex;
 	mPartType = cp.mPartType;
 	mCompatibility = cp.mCompatibility;
-	mSortType = cp.mSortType;
 }
 
 CompPart::~CompPart()
@@ -66,10 +63,6 @@ void CompPart::setCompatibility(std::string s) {
 	mCompatibility = s;
 }
 
-void CompPart::setSortType(int i) {
-	mSortType = i;
-}
-
 void CompPart::setPartType(int i) {
 	mPartType = i;
 }
@@ -98,10 +91,6 @@ int CompPart::getPartType() const {
 	return mPartType;
 }
 
-int CompPart::getSortType() const {
-	return mSortType;
-}
-
 std::string CompPart::getCompatibility() const {
 	return mCompatibility;
 }
@@ -113,7 +102,6 @@ CompPart& CompPart::operator=(const CompPart &cp) {
 		mManufacturer = cp.mManufacturer;
 		mPower = cp.mPower;
 		mPartType = cp.mPartType;
-		mSortType = cp.mSortType;
 		mCompatibility = cp.mCompatibility;
 	}
 	return *this;
@@ -126,36 +114,6 @@ bool operator==(const CompPart& cp1, const CompPart& cp2) {
 		(cp1.mPerformanceIndex == cp2.mPerformanceIndex) &&
 		(cp1.mPartType == cp2.mPartType) &&
 		(cp1.mCompatibility == cp2.mCompatibility);
-}
-
-bool operator>(const CompPart& cp1, const CompPart& cp2) {
-	if (cp1.mSortType != cp2.mSortType) {
-		throw CompPart::BadSortTypeException();
-	}
-	switch (cp1.mSortType) {
-	case CompPart::kByPrice:
-		return cp1.mPrice > cp2.mPrice;
-		break;
-	case CompPart::kByPerformanceIndex:
-		return cp1.mPerformanceIndex > cp2.mPerformanceIndex;
-	default:
-		throw CompPart::BadSortTypeException();
-	}
-}
-
-bool operator<(const CompPart& cp1, const CompPart& cp2) {
-	if (cp1.mSortType != cp2.mSortType) {
-		throw CompPart::BadSortTypeException();
-	}
-	switch (cp1.mSortType) {
-	case CompPart::kByPrice:
-		return cp1.mPrice < cp2.mPrice;
-		break;
-	case CompPart::kByPerformanceIndex:
-		return cp1.mPerformanceIndex < cp2.mPerformanceIndex;
-	default:
-		throw CompPart::BadSortTypeException();
-	}
 }
 
 std::ostream & CompPart::printHeading(std::ostream &os) {
