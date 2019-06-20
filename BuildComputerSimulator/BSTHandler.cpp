@@ -1,3 +1,7 @@
+/*
+Worked on by Lynn Dang
+*/
+
 #include "BSTHandler.h"
 
 SinglyLinkedList<CompPartWrapper> BSTHandler::list;
@@ -5,12 +9,14 @@ int BSTHandler::typePart = 0;
 double BSTHandler::budget = DBL_MAX;
 std::ofstream BSTHandler::file = std::ofstream();
 
+// Constructor
 BSTHandler::BSTHandler()
 {
 	priceBST = new BinarySearchTree<CompPartWrapper, double>();
 	performanceBST = new BinarySearchTree<CompPartWrapper, int>();
 }
 
+// Destructor
 BSTHandler::~BSTHandler() {
 	if (priceBST != nullptr) {
 		delete priceBST;
@@ -50,7 +56,7 @@ bool BSTHandler::remove(CompPartWrapper& cp) {
 	return (gotem1 && gotem2);
 }
 
-
+// Calculate the efficiencies
 void BSTHandler::calculateFactor() {
 	priceLoadFactor = priceBST->getLoadFactor();
 	performanceLoadFactor = performanceBST->getLoadFactor();
@@ -82,6 +88,7 @@ SinglyLinkedList<CompPartWrapper>& BSTHandler::getListByPerformance(int type, do
 	return list;
 }
 
+// Prints out the list
 void BSTHandler::displayListByPrice(int type) {
 	getListByPrice(type);
 
@@ -110,13 +117,14 @@ void BSTHandler::displayListByPerformance() {
 
 
 void BSTHandler::displayListByPriceIndented() {
-	priceBST->printIndentedAll(printPart);
+	priceBST->printIndentedAll(printPartIndented);
 }
 
 void BSTHandler::displayListByPerformanceIndented() {
-	performanceBST->printIndentedAll(printPart);
+	performanceBST->printIndentedAll(printPartIndented);
 }
 
+// Updates the file with the data from the price BST
 void BSTHandler::updateFile(std::string s) {
 	file.open(s);
 	file.open(s, std::ios::app);

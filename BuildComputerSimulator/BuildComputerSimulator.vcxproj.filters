@@ -36,9 +36,6 @@
     <ClInclude Include="entry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hashed_dictionary.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="hashed_entry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -63,10 +60,13 @@
     <ClInclude Include="CompPart.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="hashed_database_handler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="hashed_dict_handler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hashed_database_handler.h">
+    <ClInclude Include="hashed_dictionary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CompPartWrapper.h">
@@ -86,6 +86,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="data.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data_original.csv">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

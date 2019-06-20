@@ -1,6 +1,8 @@
 #pragma once
 /**
 	This class is a Binary Search Tree class
+
+	Worked on by Lynn Dang
 */
 
 #ifndef _BINARY_SEARCH_TREE

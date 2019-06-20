@@ -1,3 +1,7 @@
+/*
+Worked on by Lynn Dang
+*/
+
 #pragma once
 #include "node.h"
 

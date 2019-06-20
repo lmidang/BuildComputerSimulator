@@ -1,3 +1,7 @@
+/*
+Worked on by Lynn Dang
+*/
+
 #include "hashed_database_handler.h"
 
 HashedDictionary<std::string, CompPartWrapper> HashedDataHandler::dict = HashedDictionary<std::string, CompPartWrapper>(31);

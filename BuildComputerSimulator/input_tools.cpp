@@ -1,3 +1,7 @@
+/*
+Worked on by Bennett Zhang
+*/
+
 #include "input_tools.h"
 
 // Let the user input a string

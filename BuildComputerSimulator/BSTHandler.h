@@ -1,8 +1,12 @@
+/*
+Worked on by Lynn Dang
+*/
+
 #pragma once
 #include "BinarySearchTree.h"
 #include "CompPartWrapper.h"
 
-
+// IO helper functions
 void printPart(const CompPartWrapper&);
 void addToList(const CompPartWrapper&);
 void writeToFile(const CompPartWrapper&);
@@ -13,6 +17,7 @@ private:
 	BinarySearchTree<CompPartWrapper, double> *priceBST;
 	BinarySearchTree<CompPartWrapper, int> *performanceBST;
 
+	// Efficiency counters
 	int priceLoadFactor;
 	int performanceLoadFactor;
 
@@ -22,11 +27,15 @@ public:
 	static double budget;
 	static std::ofstream file;
 	
+	// Constructor/destructor
 	BSTHandler();
 	~BSTHandler();
+
+	// Mutators
 	void add(CompPartWrapper&);
 	bool remove(CompPartWrapper&);
 
+	// For calculating efficiencies
 	void calculateFactor();
 	int getPriceLoadFactor();
 	int getPerformanceLoadFactor();

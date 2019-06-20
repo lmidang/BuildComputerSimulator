@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="data.csv" />
+    <None Include="data_original.csv" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="shopping_cart.txt" />
