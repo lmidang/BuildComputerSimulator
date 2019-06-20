@@ -17,12 +17,14 @@ void saveCart(BinarySearchTree<CompPart> &);
 
 int main()
 {
+	// Create file name, bst handler, and read from file
 	const string DEFAULT_FILE_NAME = "data.csv";
 	BSTHandler bstHandler;
 	readFromFile(bstHandler);
-
+	// Completely done when true 
 	bool isCompletelyDone = false;
 
+	// Main/Menu options 
 	string mainOption[] = {"Edit Database", "Build a Computer", "Exit"};
 	string menuOptions[] = {
 		"Add computer part to shopping cart",
@@ -36,6 +38,7 @@ int main()
 		size_t userOption = menu(mainOption, 3);
 		cout << endl;
 		
+		// Ask user for input option using switch 
 		switch (userOption) {
 		case 0: {
 			bool isEditingDatDone = false;
@@ -51,6 +54,8 @@ int main()
 					int intInput;
 					double doubleInput;
 
+					// Create new component part of type CompPart
+					// Ask user for input, set data 
 					CompPart newCompPart;
 					cout << "Select the part type from the menu:" << endl;
 					intInput = menu(CompPart::partNames, CompPart::NUM_PARTS);
@@ -257,6 +262,14 @@ int main()
 	return 0;
 }
 
+/*
+Return void
+readFromFile, param BSTHandler and &bstHandler
+read in from file, create default file name
+bool valid, false until inFile
+Ask user for file name, if file is not there return invalid 
+Read data from file into item CompPart 
+*/
 void readFromFile(BSTHandler &bstHandler) {
 	ifstream inFile;
 	static const string DEFAULT_FILE_NAME = "data.csv";
@@ -302,10 +315,21 @@ void readFromFile(BSTHandler &bstHandler) {
 	bstHandler.calculateFactor();
 }
 
+// Print func, cout CompPart const &cp, cout cp
 void printItem(CompPart const &cp) {
 	cout << cp << endl;
 }
 
+/*
+Return void, func addPartToCart
+BSTHandler &bstHandler, BST<CompPart> &shoppingCart, &budget
+Display items and ask user which part is desired
+Ask user desired type of sort
+SinglyLinkedList type CompPart partsList
+Use switch for sort choice
+Return output according to user's budget (ex: too low)
+Output user's purchase after getItem
+*/
 void addPartToCart(BSTHandler &bstHandler, BinarySearchTree<CompPart> &shoppingCart, double &budget) {
 	cout << "Please select what type of computer part you would like to purchase:\n";
 	CompPart::partTypes partType = static_cast<CompPart::partTypes>(menu(CompPart::partNames, CompPart::NUM_PARTS));
@@ -362,7 +386,15 @@ void addPartToCart(BSTHandler &bstHandler, BinarySearchTree<CompPart> &shoppingC
 		}
 	} while (!valid);
 }
-
+/*
+return void
+func removePartFromCart
+BinarySearchTree<CompPart> &shoppingCart, double &budget
+Display current shopping cart in order traverse
+Ask user to enter name of part they would like to remove
+If input is not empty then show user which part removed from list
+Remove from shopping cart and adjust running total 
+*/
 void removePartFromCart(BinarySearchTree<CompPart> &shoppingCart, double &budget) {
 	cout << "Your current shopping cart contains:\n";
 	CompPart::printHeading(cout);
@@ -396,6 +428,13 @@ void removePartFromCart(BinarySearchTree<CompPart> &shoppingCart, double &budget
 	} while (!valid);
 }
 
+/*
+return void
+func viewCart 
+BinarySearchTree<CompPart> &shoppingCart
+cout shopping cart:
+print shoppingCart in order traverse
+*/
 void viewCart(BinarySearchTree<CompPart> &shoppingCart) {
 	cout << "Your current shopping cart contains:\n";
 	CompPart::printHeading(cout);
@@ -403,11 +442,26 @@ void viewCart(BinarySearchTree<CompPart> &shoppingCart) {
 	cout << endl;
 }
 
+/*
+return void
+func changeBudget
+double &budget
+cout enter your budget
+user input number, 0, max, and $ assign to budget
+*/
 void changeBudget(double &budget) {
 	cout << "Please enter your budget:\n";
 	budget = inputNumber(0, DBL_MAX, "$");
 }
 
+/*
+return void
+func saveCart
+BSTtree<CompPart> &shoppingCart
+file name, shopping cart, string fileName
+Ask user to enter the name of file save location
+BST: open file, close, open app, print heading bst file, write shopping cart in order traverse to file, close file
+*/
 void saveCart(BinarySearchTree<CompPart> &shoppingCart) {
 	static const string DEFAULT_FILE_NAME = "shopping_cart.txt";
 	string fileName;
