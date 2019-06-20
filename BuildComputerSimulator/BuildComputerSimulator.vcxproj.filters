@@ -4,9 +4,6 @@
     <ClCompile Include="CompPart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ComputerBuilder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="input_tools.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -31,9 +28,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BinarySearchTree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ComputerBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="entry.h">
