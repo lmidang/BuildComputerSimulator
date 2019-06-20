@@ -34,6 +34,7 @@ public:
 	ItemType getItem(const KeyType &);
 	bool contains(const KeyType &);
 	void traverse(void visit(const ItemType &));
+	void traverseMod(void visit(ItemType &));
 	void traverseIndex(void visit(const ItemType &), size_t);
 };
 
@@ -256,6 +257,18 @@ bool HashedDictionary<KeyType, ItemType>::contains(const KeyType &searchKey) {
 
 template <typename KeyType, typename ItemType>
 void HashedDictionary<KeyType, ItemType>::traverse(void visit(const ItemType &)) {
+	for (size_t i = 0; i < hashTableSize; i++) {
+		HashedEntry<KeyType, ItemType> *pCurr = hashTable[i];
+
+		while (pCurr != nullptr) {
+			visit(pCurr->getItem());
+			pCurr = pCurr->getNext();
+		}
+	}
+}
+
+template <typename KeyType, typename ItemType>
+void HashedDictionary<KeyType, ItemType>::traverseMod(void visit(ItemType &)) {
 	for (size_t i = 0; i < hashTableSize; i++) {
 		HashedEntry<KeyType, ItemType> *pCurr = hashTable[i];
 

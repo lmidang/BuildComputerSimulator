@@ -1,23 +1,31 @@
 #include "hashed_database_handler.h"
 
-HashedDictionary<std::string, CompPart> HashedDataHandler::dict = HashedDictionary<std::string, CompPart>(31);
+HashedDictionary<std::string, CompPartWrapper> HashedDataHandler::dict = HashedDictionary<std::string, CompPartWrapper>(31);
 int HashedDataHandler::loadFactor = 0;
 int HashedDataHandler::sumOfIndex = 0;
 int HashedDataHandler::largest = 0;
 std::ofstream HashedDataHandler::file;
+Queue<CompPartWrapper> HashedDataHandler::thisList = Queue<CompPartWrapper>();
 
 
-void getNumNodes(const CompPart& cp) {
+void getNumNodes(const CompPartWrapper& cp) {
 	HashedDataHandler::sumOfIndex++;
 }
 
-void writeHashFile(const CompPart &cp) {
-	HashedDataHandler::file << cp.getPartType() << "," << cp.getName() << "," << cp.getPrice() << "," << cp.getManufacturer()
-		<< "," << cp.getPower() << "," << cp.getPerformanceIndex() << "," << cp.getCompatibility() << "," << std::endl;
+void writeHashFile(const CompPartWrapper &cp) {
+	if (cp.getPtr() == nullptr) {
+		return;
+	}
+	HashedDataHandler::file << cp.get().getPartType() << "," << cp.get().getName() << "," << cp.get().getPrice() << "," << cp.get().getManufacturer()
+		<< "," << cp.get().getPower() << "," << cp.get().getPerformanceIndex() << "," << cp.get().getCompatibility() << "," << std::endl;
 }
 
-HashedDictionary<std::string, CompPart> & HashedDataHandler::getDict() {
+HashedDictionary<std::string, CompPartWrapper> & HashedDataHandler::getDict() {
 	return dict;
+}
+
+void freeCompPartList(const CompPartWrapper &cp){
+	HashedDataHandler::thisList.enqueue(cp);
 }
 
 std::string HashedDataHandler::normalize(std::string name) {
@@ -35,8 +43,8 @@ std::string HashedDataHandler::normalize(std::string name) {
 	return norm;
 }
 
-void HashedDataHandler::add(const CompPart &item) {
-	dict.add(normalize(item.getName()), item);
+void HashedDataHandler::add(const CompPartWrapper &item) {
+	dict.add(normalize(item.get().getName()), item);
 }
 
 void HashedDataHandler::calculateLoadFactor() {
@@ -70,4 +78,11 @@ void HashedDataHandler::writeHashToFile(std::string s) {
 	file << "Part Type, Name, Price, Manufacturer, Power, Performance Index, Compatibility(or other)," << std::endl;
 	dict.traverse(writeHashFile);
 	file.close();
+}
+
+void HashedDataHandler::freeCompParts() {
+	while (!thisList.isEmpty()) {
+		thisList.front().freeComp();
+		thisList.dequeue();
+	}
 }

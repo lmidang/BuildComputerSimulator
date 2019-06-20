@@ -8,12 +8,11 @@
 using namespace std;
 
 void readFromFile(BSTHandler &);
-void printItem(CompPart const &);
-void addPartToCart(BSTHandler &, BinarySearchTree<CompPart, string> &, double &);
-void removePartFromCart(BinarySearchTree<CompPart, string> &, double &);
+void addPartToCart(BSTHandler &, BinarySearchTree<CompPartWrapper, string> &, double &);
+void removePartFromCart(BinarySearchTree<CompPartWrapper, string> &, double &);
 void changeBudget(double &);
-void viewCart(BinarySearchTree<CompPart, string> &);
-void saveCart(BinarySearchTree<CompPart, string> &);
+void viewCart(BinarySearchTree<CompPartWrapper, string> &);
+void saveCart(BinarySearchTree<CompPartWrapper, string> &);
 
 int main()
 {
@@ -54,39 +53,40 @@ int main()
 					int intInput;
 					double doubleInput;
 
-					// Create new component part of type CompPart
+					// Create new component part of type CompPartWrapper
 					// Ask user for input, set data 
-					CompPart newCompPart;
+					CompPart* newCompPart = new CompPart();
 					cout << "Select the part type from the menu:" << endl;
-					intInput = menu(CompPart::partNames, CompPart::NUM_PARTS);
+					intInput = int(menu(CompPart::partNames, CompPart::NUM_PARTS));
 					cout << endl;
-					newCompPart.setPartType(intInput);
+					newCompPart->setPartType(intInput);
 					cout << "Enter a name: ";
 					stringInput = inputString();
-					newCompPart.setName(stringInput);
+					newCompPart->setName(stringInput);
 					cout << "Enter a price: ";
 					doubleInput = inputNumber(0, DBL_MAX, "$");
-					newCompPart.setPrice(doubleInput);
+					newCompPart->setPrice(doubleInput);
 					cout << "Enter the manufacturer: ";
 					stringInput = inputString();
-					newCompPart.setManufacturer(stringInput);
+					newCompPart->setManufacturer(stringInput);
 					cout << "Enter the power: ";
 					intInput = int(inputNumber(0, DBL_MAX));
-					newCompPart.setPower(intInput);
+					newCompPart->setPower(intInput);
 					cout << "Enter the performanceIndex: ";
 					intInput = int(inputNumber(0, DBL_MAX));
-					newCompPart.setPerformanceIndex(intInput);
-					if ((newCompPart.getPartType() == CompPart::kCPU) || (newCompPart.getPartType() == CompPart::kMotherBoard)) {
+					newCompPart->setPerformanceIndex(intInput);
+					if ((newCompPart->getPartType() == CompPart::kCPU) || (newCompPart->getPartType() == CompPart::kMotherBoard)) {
 						cout << "Enter compatibility: ";
 						stringInput = inputString(true);
-						newCompPart.setCompatibility(stringInput);
+						newCompPart->setCompatibility(stringInput);
 					}
 
 					cout << "Here is the computer part you added:\n";
-					cout << newCompPart << endl;
+					cout << *(newCompPart) << endl;
+					CompPartWrapper cPtr = CompPartWrapper(newCompPart);
 
-					bstHandler->add(newCompPart);
-					HashedDataHandler::add(newCompPart);
+					bstHandler->add(cPtr);
+					HashedDataHandler::add(cPtr);
 					break;
 				}
 				case 1: { // remove by name
@@ -94,9 +94,10 @@ int main()
 					string userInput;
 					userInput = inputString();
 					try {
-						CompPart toDelete = HashedDataHandler::getDict().getItem(HashedDataHandler::normalize(userInput));
+						CompPartWrapper toDelete = HashedDataHandler::getDict().getItem(HashedDataHandler::normalize(userInput));
 						bstHandler->remove(toDelete);
-						HashedDataHandler::getDict().remove(userInput);
+						HashedDataHandler::getDict().remove(HashedDataHandler::normalize(userInput));
+						toDelete.freeComp();
 						cout << "Item removed.\n\n";
 					} catch (...) {
 						cout << "Item was not in database\n\n";
@@ -109,7 +110,7 @@ int main()
 					input = inputString();
 
 					try {
-						CompPart part = HashedDataHandler::getDict().getItem(HashedDataHandler::normalize(input));
+						CompPartWrapper part = HashedDataHandler::getDict().getItem(HashedDataHandler::normalize(input));
 						cout << part << endl << endl;
 
 					} catch (...) {
@@ -119,7 +120,7 @@ int main()
 				}
 				case 3: { // list hashed sequence
 					CompPart::printHeading(cout);
-					HashedDataHandler::getDict().traverse(printItem);
+					HashedDataHandler::getDict().traverse(printPart);
 					break;
 				}
 				case 4: { // list key sequence
@@ -127,7 +128,7 @@ int main()
 					size_t inputNum = static_cast<size_t>(inputNumber(0, HashedDataHandler::getDict().getSize() - 1));
 					CompPart::printHeading(cout);
 					try {
-						HashedDataHandler::getDict().traverseIndex(printItem, inputNum);
+						HashedDataHandler::getDict().traverseIndex(printPart, inputNum);
 					}
 					catch (HashedDictionary<string, CompPart>::OutOfRangeException) {
 						cerr << "Index is out of range!\n";
@@ -214,7 +215,7 @@ int main()
 			break;
 		}
 		case 1: {	// build computer option here
-			BinarySearchTree<CompPart, string> *shoppingCart = new BinarySearchTree<CompPart, string>();
+			BinarySearchTree<CompPartWrapper, string> *shoppingCart = new BinarySearchTree<CompPartWrapper, string>();
 			double budget;
 			changeBudget(budget);
 
@@ -260,8 +261,11 @@ int main()
 
 	} while (!isCompletelyDone);
 
+	cout << "delete bst\n";
 	delete bstHandler;
 	bstHandler = nullptr;
+	cout << "free\n";
+	HashedDataHandler::freeCompParts();
 	system("pause");
 	return 0;
 }
@@ -272,7 +276,7 @@ readFromFile, param BSTHandler and &bstHandler
 read in from file, create default file name
 bool valid, false until inFile
 Ask user for file name, if file is not there return invalid 
-Read data from file into item CompPart 
+Read data from file into item CompPartWrapper 
 */
 void readFromFile(BSTHandler &bstHandler) {
 	ifstream inFile;
@@ -303,11 +307,12 @@ void readFromFile(BSTHandler &bstHandler) {
 
 	while (!inFile.eof()) {
 		try {
-			CompPart item;
-			inFile >> item;
+			CompPart* item = new CompPart();
+			inFile >> *item;
+			CompPartWrapper cp = CompPartWrapper(item);
 
-			HashedDataHandler::add(item);
-			bstHandler.add(item);
+			HashedDataHandler::add(cp);
+			bstHandler.add(cp);
 		}
 		catch (CompPart::ExtraSpaceException) {
 
@@ -317,11 +322,6 @@ void readFromFile(BSTHandler &bstHandler) {
 
 	HashedDataHandler::calculateLoadFactor();
 	bstHandler.calculateFactor();
-}
-
-// Print func, cout CompPart const &cp, cout cp
-void printItem(CompPart const &cp) {
-	cout << cp << endl;
 }
 
 /*
@@ -334,7 +334,7 @@ Use switch for sort choice
 Return output according to user's budget (ex: too low)
 Output user's purchase after getItem
 */
-void addPartToCart(BSTHandler &bstHandler, BinarySearchTree<CompPart, string> &shoppingCart, double &budget) {
+void addPartToCart(BSTHandler &bstHandler, BinarySearchTree<CompPartWrapper, string> &shoppingCart, double &budget) {
 	cout << "Please select what type of computer part you would like to purchase:\n";
 	CompPart::partTypes partType = static_cast<CompPart::partTypes>(menu(CompPart::partNames, CompPart::NUM_PARTS));
 	cout << endl;
@@ -344,7 +344,7 @@ void addPartToCart(BSTHandler &bstHandler, BinarySearchTree<CompPart, string> &s
 	size_t sortChoice = menu(sortOptions, 2);
 	cout << endl;
 
-	SinglyLinkedList<CompPart> partsList;
+	SinglyLinkedList<CompPartWrapper> partsList;
 
 	switch (sortChoice) {
 	case 0:
@@ -373,13 +373,13 @@ void addPartToCart(BSTHandler &bstHandler, BinarySearchTree<CompPart, string> &s
 
 		try {
 			if (input != "") {
-				CompPart part = HashedDictHandler::getDict().getItem(HashedDictHandler::normalize(input));
+				CompPartWrapper part = HashedDictHandler::getDict().getItem(HashedDictHandler::normalize(input));
 
 				cout << "You just bought:\n";
 				cout << part << "\n\n";
 
-				shoppingCart.add(part, part.getName());
-				budget -= part.getPrice();
+				shoppingCart.add(part, part.get().getName());
+				budget -= part.get().getPrice();
 			}
 
 			valid = true;
@@ -392,13 +392,13 @@ void addPartToCart(BSTHandler &bstHandler, BinarySearchTree<CompPart, string> &s
 /*
 return void
 func removePartFromCart
-BinarySearchTree<CompPart> &shoppingCart, double &budget
+BinarySearchTree<CompPartWrapper> &shoppingCart, double &budget
 Display current shopping cart in order traverse
 Ask user to enter name of part they would like to remove
 If input is not empty then show user which part removed from list
 Remove from shopping cart and adjust running total 
 */
-void removePartFromCart(BinarySearchTree<CompPart, string> &shoppingCart, double &budget) {
+void removePartFromCart(BinarySearchTree<CompPartWrapper, string> &shoppingCart, double &budget) {
 	cout << "Your current shopping cart contains:\n";
 	CompPart::printHeading(cout);
 	shoppingCart.inOrderTraverse(printPart);
@@ -415,12 +415,12 @@ void removePartFromCart(BinarySearchTree<CompPart, string> &shoppingCart, double
 
 		try {
 			if (input != "") {
-				CompPart part = HashedDictHandler::getDict().getItem(HashedDictHandler::normalize(input));
+				CompPartWrapper part = HashedDictHandler::getDict().getItem(HashedDictHandler::normalize(input));
 				cout << "You just removed:\n";
 				cout << part << "\n\n";
 
-				shoppingCart.remove(part, part.getName());
-				budget += part.getPrice();
+				shoppingCart.remove(part, part.get().getName());
+				budget += part.get().getPrice();
 			}
 
 			valid = true;
@@ -434,11 +434,11 @@ void removePartFromCart(BinarySearchTree<CompPart, string> &shoppingCart, double
 /*
 return void
 func viewCart 
-BinarySearchTree<CompPart> &shoppingCart
+BinarySearchTree<CompPartWrapper> &shoppingCart
 cout shopping cart:
 print shoppingCart in order traverse
 */
-void viewCart(BinarySearchTree<CompPart, string> &shoppingCart) {
+void viewCart(BinarySearchTree<CompPartWrapper, string> &shoppingCart) {
 	cout << "Your current shopping cart contains:\n";
 	CompPart::printHeading(cout);
 	shoppingCart.inOrderTraverse(printPart);
@@ -460,12 +460,12 @@ void changeBudget(double &budget) {
 /*
 return void
 func saveCart
-BSTtree<CompPart> &shoppingCart
+BSTtree<CompPartWrapper> &shoppingCart
 file name, shopping cart, string fileName
 Ask user to enter the name of file save location
 BST: open file, close, open app, print heading bst file, write shopping cart in order traverse to file, close file
 */
-void saveCart(BinarySearchTree<CompPart, string> &shoppingCart) {
+void saveCart(BinarySearchTree<CompPartWrapper, string> &shoppingCart) {
 	static const string DEFAULT_FILE_NAME = "shopping_cart.txt";
 	string fileName;
 

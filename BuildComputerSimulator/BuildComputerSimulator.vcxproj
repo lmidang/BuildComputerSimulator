@@ -119,6 +119,7 @@
     <ClInclude Include="BinarySearchTree.h" />
     <ClInclude Include="BSTHandler.h" />
     <ClInclude Include="CompPart.h" />
+    <ClInclude Include="CompPartWrapper.h" />
     <ClInclude Include="entry.h" />
     <ClInclude Include="hashed_database_handler.h" />
     <ClInclude Include="hashed_dictionary.h" />
@@ -133,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="BSTHandler.cpp" />
     <ClCompile Include="CompPart.cpp" />
+    <ClCompile Include="CompPartWrapper.cpp" />
     <ClCompile Include="hashed_database_handler.cpp" />
     <ClCompile Include="hashed_dict_handler.cpp" />
     <ClCompile Include="input_tools.cpp" />

@@ -1,8 +1,8 @@
 #include "hashed_dict_handler.h"
 
-HashedDictionary<std::string, CompPart> HashedDictHandler::dict = HashedDictionary<std::string, CompPart>(31);
+HashedDictionary<std::string, CompPartWrapper> HashedDictHandler::dict = HashedDictionary<std::string, CompPartWrapper>(31);
 
-HashedDictionary<std::string, CompPart> & HashedDictHandler::getDict() {
+HashedDictionary<std::string, CompPartWrapper> & HashedDictHandler::getDict() {
 	return dict;
 }
 
@@ -21,6 +21,6 @@ std::string HashedDictHandler::normalize(std::string name) {
 	return norm;
 }
 
-void HashedDictHandler::add(const CompPart &item) {
-	dict.add(normalize(item.getName()), item);
+void HashedDictHandler::add(const CompPartWrapper &item) {
+	dict.add(normalize(item.get().getName()), item);
 }

@@ -1,16 +1,14 @@
 #include "BSTHandler.h"
 
-SinglyLinkedList<CompPart> BSTHandler::list;
+SinglyLinkedList<CompPartWrapper> BSTHandler::list;
 int BSTHandler::typePart = 0;
 double BSTHandler::budget = DBL_MAX;
 std::ofstream BSTHandler::file = std::ofstream();
 
 BSTHandler::BSTHandler()
 {
-	priceBST = new BinarySearchTree<CompPart, double>();
-	performanceBST = new BinarySearchTree<CompPart, int>();
-//	priceBST = BinarySearchTree<CompPart, double>();
-//	performanceBST = BinarySearchTree<CompPart, int>();
+	priceBST = new BinarySearchTree<CompPartWrapper, double>();
+	performanceBST = new BinarySearchTree<CompPartWrapper, int>();
 }
 
 BSTHandler::~BSTHandler() {
@@ -24,30 +22,30 @@ BSTHandler::~BSTHandler() {
 	}
 }
 
-void printPart(const CompPart& cp) {
+void printPart(const CompPartWrapper& cp) {
 	std::cout << cp << std::endl;
 }
 
-void addToList(const CompPart& cp) {
-	if (cp.getPartType() == BSTHandler::typePart && cp.getPrice() <= BSTHandler::budget)
+void addToList(const CompPartWrapper& cp) {
+	if (cp.get().getPartType() == BSTHandler::typePart && cp.get().getPrice() <= BSTHandler::budget)
 		BSTHandler::list.insertAt(0, cp);
 }
 
-void writeToFile(const CompPart &cp) {
-	BSTHandler::file << cp.getPartType() << "," << cp.getName() << "," << cp.getPrice() << "," << cp.getManufacturer()
-		<< "," << cp.getPower()<< "," << cp.getPerformanceIndex() << "," << cp.getCompatibility() << "," << std::endl;
+void writeToFile(const CompPartWrapper &cp) {
+	BSTHandler::file << cp.get().getPartType() << "," << cp.get().getName() << "," << cp.get().getPrice() << "," << cp.get().getManufacturer()
+		<< "," << cp.get().getPower()<< "," << cp.get().getPerformanceIndex() << "," << cp.get().getCompatibility() << "," << std::endl;
 }
 
-void BSTHandler::add(CompPart& cp) {
-	priceBST->add(cp, cp.getPrice());
-	performanceBST->add(cp, cp.getPerformanceIndex());
+void BSTHandler::add(CompPartWrapper& cp) {
+	priceBST->add(cp, cp.get().getPrice());
+	performanceBST->add(cp, cp.get().getPerformanceIndex());
 }
 
-bool BSTHandler::remove(CompPart& cp) {
+bool BSTHandler::remove(CompPartWrapper& cp) {
 	bool gotem1;
 	bool gotem2;
-	gotem1 = priceBST->remove(cp, cp.getPrice());
-	gotem2 = performanceBST->remove(cp, cp.getPerformanceIndex());
+	gotem1 = priceBST->remove(cp, cp.get().getPrice());
+	gotem2 = performanceBST->remove(cp, cp.get().getPerformanceIndex());
 
 	return (gotem1 && gotem2);
 }
@@ -66,7 +64,7 @@ int BSTHandler::getPerformanceLoadFactor() {
 	return performanceLoadFactor;
 }
 
-SinglyLinkedList<CompPart>& BSTHandler::getListByPrice(int type, double budget) {
+SinglyLinkedList<CompPartWrapper>& BSTHandler::getListByPrice(int type, double budget) {
 	list.clear();
 	typePart = type;
 	this->budget = budget;
@@ -75,7 +73,7 @@ SinglyLinkedList<CompPart>& BSTHandler::getListByPrice(int type, double budget) 
 	return list;
 }
 
-SinglyLinkedList<CompPart>& BSTHandler::getListByPerformance(int type, double budget) {
+SinglyLinkedList<CompPartWrapper>& BSTHandler::getListByPerformance(int type, double budget) {
 	list.clear();
 	typePart = type;
 	this->budget = budget;

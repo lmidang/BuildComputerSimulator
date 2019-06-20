@@ -297,7 +297,7 @@ template <class ItemType, typename KeyType>
 BinaryNode<ItemType, KeyType> *BinarySearchTree<ItemType, KeyType>::removeNode(BinaryNode<ItemType, KeyType> *pNode) {
 	bool hasLeftChild = pNode->getLeftChildPtr() != nullptr,
 		hasRightChild = pNode->getRightChildPtr() != nullptr;
-
+	
 	if (!hasLeftChild && !hasRightChild) {
 		delete pNode;
 		pNode = nullptr;
@@ -333,8 +333,11 @@ BinaryNode<ItemType, KeyType> *BinarySearchTree<ItemType, KeyType>::removeNode(B
 template <class ItemType, typename KeyType>
 BinaryNode<ItemType, KeyType> * BinarySearchTree<ItemType, KeyType>::removeLeftmostNode(BinaryNode<ItemType, KeyType> *pSubTree, ItemType &inorderSuccessor, KeyType &inorderKey) {
 	if (pSubTree->getLeftChildPtr() == nullptr) {
+
 		inorderSuccessor = pSubTree->getData();
+
 		inorderKey = pSubTree->getKey();
+
 		return removeNode(pSubTree);
 	}
 
