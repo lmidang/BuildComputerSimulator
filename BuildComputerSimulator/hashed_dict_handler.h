@@ -1,7 +1,12 @@
+/*
+Worked on by Bennett Zhang
+*/
+
 #pragma once
 #include <string>
 #include "hashed_dictionary.h"
 #include "CompPart.h"
+#include "BSTHandler.h"
 
 class HashedDictHandler {
 private:

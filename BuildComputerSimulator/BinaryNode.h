@@ -1,5 +1,6 @@
 /**
 	This class is the Binary Node ADT class
+	Worked on by Lynn Dang
 */
 
 #pragma once

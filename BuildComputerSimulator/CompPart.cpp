@@ -1,3 +1,7 @@
+/*
+Worked on by Lynn Dang
+*/
+
 #include "CompPart.h"
 
 const std::string CompPart::partNames[] = { "CPU", "Cooler", "Motherboard", "Memory", "Video Card", "Storage", "Case", "Power Supply" };

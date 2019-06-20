@@ -1,3 +1,7 @@
+/*
+Worked on by Bennett Zhang
+*/
+
 #pragma once
 #include <string>
 #include <fstream>

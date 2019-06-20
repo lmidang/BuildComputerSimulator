@@ -1,3 +1,11 @@
+/*
+Final Project - Build Computer Simulator
+Team 03
+Lynn Dang, Bennett Zhang
+
+Allows user to easily manage a database of computer parts and to pick computer parts with a limited budget in mind.
+*/
+
 #include <iostream>
 #include <fstream>
 #include "input_tools.h"
@@ -18,11 +26,12 @@ void saveCart(BinarySearchTree<CompPart, string> &);
 int main()
 {
 	// Create file name, bst handler, and read from file
-	const string DEFAULT_FILE_NAME = "data.csv";
 	BSTHandler *bstHandler = new BSTHandler();
 	readFromFile(*bstHandler);
 	// Completely done when true 
 	bool isCompletelyDone = false;
+
+	const string DEFAULT_FILE_NAME = "data.csv";
 
 	// Main/Menu options 
 	string mainOption[] = {"Edit Database", "Build a Computer", "Exit"};
@@ -96,7 +105,7 @@ int main()
 					try {
 						CompPart toDelete = HashedDataHandler::getDict().getItem(HashedDataHandler::normalize(userInput));
 						bstHandler->remove(toDelete);
-						HashedDataHandler::getDict().remove(userInput);
+						cout << HashedDataHandler::getDict().remove(HashedDictHandler::normalize(userInput)) << endl;
 						cout << "Item removed.\n\n";
 					} catch (...) {
 						cout << "Item was not in database\n\n";

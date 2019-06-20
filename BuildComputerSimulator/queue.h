@@ -1,3 +1,7 @@
+/*
+Worked on by Lynn Dang
+*/
+
 #pragma once
 #include "singly_linked_list.h"
 
